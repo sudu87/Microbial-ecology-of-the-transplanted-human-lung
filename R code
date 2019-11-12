@@ -1,0 +1,84 @@
+#Set working directory
+setwd()
+#Load packages
+library(ggplot2)
+library(vegan) # ecological diversity analysis
+library(dplyr)
+library(scales) # scale functions for vizualizations
+library(grid)
+library(reshape2) # data manipulation package
+library(cowplot)
+library(phyloseq)
+library(ape)
+library(devtools) 
+library(ggtree)
+library(biomformat)
+library(ampvis2)
+library(HTSSIP)
+library(plotly)
+library(genefilter)
+library(Rtsne)
+library(microbiome)
+library(BiocInstaller)
+library(metacoder)
+library(taxa)
+library(edgeR)
+library(grid)
+library(plyr)
+library(genefilter)
+library(metagenomeSeq)
+library(fso)
+library(philentropy)
+library(gplots)
+library(DESeq2)
+library(ampvis2)
+library(RColorBrewer)
+library(ComplexHeatmap)
+library(pheatmap)
+library(superheat)
+library(car)
+library(intergraph)
+library(GGally)
+library(network)
+library(ggnet)
+library(ggnetwork)
+library(divo)
+library(extrafont)
+library(apeglm)
+library(EnhancedVolcano)
+library(gridExtra)
+library(grid)
+library(IHW)
+library(gtx)
+library(PMCMR)
+library(ggpubr)
+library(EnvStats)
+library(randomForestExplainer)
+library(randomForest)
+library(markovchain)
+
+#Creating a phyloseq object
+ltx_otus<-import_biom("ltx_otus_070319_wTaxa.biom",parseFunction = parse_taxonomy_default)
+sample<-import_qiime_sample_data("metadata_updated_070319_v5.txt")
+
+#Adding tree
+ltx_tree=ape::read.tree("phylogeny/c0_otus_sorted_aligned_2304_test (At least 50% gaps stripped) FastTree Tree.tre")
+
+#Merge phyloseq
+ltx_otus = merge_phyloseq(ltx_otus,sample,ltx_tree)
+
+#renaming taxonomy column names
+colnames(tax_table(ltx_otus)) <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus","Species")
+rank_names(ltx_otus)
+
+#Create table, number of features for each phyla
+table(tax_table(ltx_otus)[, "Phylum"], exclude = NULL)
+
+#Exploring metadata
+sample_names(ltx_otus)
+
+#Storing Lumicol in another object for further exploration
+lumicol<-subset_samples(ltx_otus,Sample_SD=="LUMICOL")
+
+
+
