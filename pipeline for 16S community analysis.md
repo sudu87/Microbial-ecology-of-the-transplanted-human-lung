@@ -1,9 +1,25 @@
-#**BALF community analysis pipeline (Das et al 2020)**
+**BALF community analysis pipeline (Das et al 2020)**
 
-##Data curation
+*Data curation*
 Available runs : 5 
 Runs 1, 3, 5, 30, 36 and 52 were processed individually.
 Merging R1 and R2 reads together with Index.fastq using QIIME, this uses Fastq-join tool and min overlap was chosen to be 10 nts. 
 ```
 join_paired_ends.py -f R1.fastq.gz -r R2.fastq.gz -b Index.fastq.gz -j 10 -o joined_reads
+```
+*Validate mapping file*
+```
+validate_mapping_file.py -m map.txt -o validated_map
+```
+
+#Demultiplexing and stored in folder split_lib_out.
+
+#phred quality score: 28 in at least 75% of each sequence.
+```
+
+split_libraries_fastq.py -i fastqjoin.join.fastq -m ../validated_map/map_corrected.txt -b fastqjoin.join_barcodes.fastq -o ../split_lib_out --barcode_type golay_12 --store_demultiplexed_fastq --phred_offset=33 -q 28 -p 0.75 --max_barcode_errors 2 --rev_comp_mapping_barcodes
+```
+#Split all sequences according to sample names and store in folder split_seq_out
+```
+split_sequence_file_on_sample_ids.py -i seqs.fastq -o ../split_seq_out  --file_type fastq
 ```
