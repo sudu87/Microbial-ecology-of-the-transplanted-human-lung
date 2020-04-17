@@ -1,4 +1,4 @@
-#BALF community analysis pipeline (Das et al 2020)
+#**BALF community analysis pipeline (Das et al 2020)**
 
 ##Data curation
 Available runs : 5 
