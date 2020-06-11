@@ -3,7 +3,10 @@
 **Check Python version**\
 This pipeline requires python 2.7.
 
+```
 which python
+```
+Example output: 
 ```
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python
 ```
