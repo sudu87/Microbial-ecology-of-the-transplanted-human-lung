@@ -16,3 +16,13 @@ We find that the lung microbiota post-transplant can be categorized into four di
 2 Department of Immunology and Pathology, Central Clinical School, Monash University, Australia.
 
 3 Division of Pneumology, Centre Hospitalier Universitaire Vaudois (CHUV), Lausanne, Switzerland.
+
+## Code structure and environment
+
+**Operating system:** 
+macOS 10.15.4 Catalina
+
+**Code languages:**
+Python 2.7
+Bash script
+R version 3.6.3
