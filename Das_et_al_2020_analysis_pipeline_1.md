@@ -1,5 +1,5 @@
 
-#Activating environment
+Activating environment
 ```
 conda activate qiime1
 ```
