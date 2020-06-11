@@ -1,6 +1,9 @@
+# Setting up the environment
 
 **Check Python version**\
 This pipeline requires python 2.7.
+
+which python
 ```
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python
 ```
