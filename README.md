@@ -17,14 +17,22 @@ We find that the lung microbiota post-transplant can be categorized into four di
 
 3 Division of Pneumology, Centre Hospitalier Universitaire Vaudois (CHUV), Lausanne, Switzerland.
 
-## Code structure and environment
+## Code environment and structure
 
 **Operating system:** 
+
 macOS 10.15.4 Catalina
 
 **Code languages:**
+
 Python 2.7
 
 Bash script
 
 R version 3.6.3
+
+**Structure** 
+
+The analysis is divided into 2 parts:
+
+
