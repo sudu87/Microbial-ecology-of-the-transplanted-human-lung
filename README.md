@@ -5,7 +5,7 @@ We find that the lung microbiota post-transplant can be categorized into four di
 
 ## Code conceptualization and development team 
 
-* Sudip Das
+* Sudip Das<sup>1
 * Germán Bonilla-Rosso
 * Céline Pattaroni
 * Alexis Rapin 
