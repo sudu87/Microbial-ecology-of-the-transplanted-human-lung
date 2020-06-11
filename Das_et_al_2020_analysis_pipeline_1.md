@@ -1,8 +1,10 @@
 # Setting up the environment
 
 **Check Python version**\
+
 This pipeline requires python 2.7.
 
+Command to check this:
 ```
 which python
 ```
