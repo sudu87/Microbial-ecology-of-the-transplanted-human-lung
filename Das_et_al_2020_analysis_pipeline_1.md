@@ -1,6 +1,6 @@
 # Setting up the environment
 
-**Check Python version**\
+**Check Python version**
 
 This pipeline requires python 2.7.
 
