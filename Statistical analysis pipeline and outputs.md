@@ -1,23 +1,32 @@
-Clinical metadata file: 
+# Clinical metadata file: 
 
 Supplementary_Data_8.csv
 
+this can be found in the parent directory of this project.
 
+## Bacteria copy
 
-#Bacteria copy
+```
+leveneTest(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019,center=mean)
+```
 
-> leveneTest(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019,center=mean)
 Levene's Test for Homogeneity of Variance (center = mean)
        Df F value Pr(>F)
 group   3  1.0109 0.3887
       229               
-> summary(aov(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019))
+```
+summary(aov(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019))
+```
+
              Df Sum Sq Mean Sq F value     Pr(>F)    
 kmed_2        3  44.67  14.890   12.14 0.00000021 ***
 Residuals   229 280.80   1.226                       
 
+```
+TukeyHSD(aov(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019))
 
-> TukeyHSD(aov(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019))
+```
+
   Tukey multiple comparisons of means
     95% family-wise confidence level
 
