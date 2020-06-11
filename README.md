@@ -24,5 +24,7 @@ macOS 10.15.4 Catalina
 
 **Code languages:**
 Python 2.7
+
 Bash script
+
 R version 3.6.3
