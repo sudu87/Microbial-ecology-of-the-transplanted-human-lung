@@ -1,0 +1,990 @@
+Clinical metadata
+
+#Bacteria copy
+
+> leveneTest(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value Pr(>F)
+group   3  1.0109 0.3887
+      229               
+> summary(aov(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019))
+             Df Sum Sq Mean Sq F value     Pr(>F)    
+kmed_2        3  44.67  14.890   12.14 0.00000021 ***
+Residuals   229 280.80   1.226                       
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> TukeyHSD(aov(log10(Cop16SPerMLBAL)~kmed_2,data = df.july2019))
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = log10(Cop16SPerMLBAL) ~ kmed_2, data = df.july2019)
+
+$kmed_2
+                diff        lwr        upr     p adj
+pam2-pam1 -1.1301742 -1.8403078 -0.4200407 0.0003089
+pam3-pam1 -0.7169783 -1.1413643 -0.2925923 0.0001094
+pam4-pam1  0.2810538 -0.3625594  0.9246671 0.6713050
+pam3-pam2  0.4131960 -0.3218621  1.1482541 0.4666596
+pam4-pam2  1.4112281  0.5312025  2.2912536 0.0002724
+pam4-pam3  0.9980321  0.3270189  1.6690453 0.0008799
+
+
+
+##Virome of human lung 
+
+#Anello virus counts total
+
+> leveneTest(log10(AnelloAllPerMLBAL)~kmed_2,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value    Pr(>F)    
+group   3  6.0755 0.0005445 ***
+      220                      
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> kruskal.test(log10(AnelloAllPerMLBAL)~kmed_2, data=df.july2019)
+
+	Kruskal-Wallis rank sum test
+
+data:  log10(AnelloAllPerMLBAL) by kmed_2
+Kruskal-Wallis chi-squared = 7.707, df = 3, p-value = 0.05247
+
+> posthoc.kruskal.dunn.test(log10(df.july2019$AnelloAllPerMLBAL),df.july2019$kmed_2,p.adjust.method = "BH")
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  log10(df.july2019$AnelloAllPerMLBAL) and df.july2019$kmed_2 
+
+     pam1  pam2  pam3 
+pam2 0.892 -     -    
+pam3 0.081 0.403 -    
+pam4 0.745 0.745 0.127
+
+P value adjustment method: BH 
+
+
+
+#Alpha
+
+> leveneTest(log10(TTV1to5perMLBAL)~kmed_2,data=df.july2019,center=median)
+Levene's Test for Homogeneity of Variance (center = median)
+       Df F value    Pr(>F)    
+group   3  6.7544 0.0002258 ***
+      213                      
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> kruskal.test(log10(TTV1to5perMLBAL)~kmed_2, data=df.july2019)
+
+	Kruskal-Wallis rank sum test
+
+data:  log10(TTV1to5perMLBAL) by kmed_2
+Kruskal-Wallis chi-squared = 17.041, df = 3, p-value = 0.0006932
+
+> posthoc.kruskal.dunn.test(df.july2019$TTV1to5perMLBAL,df.july2019$kmed_2,p.adjust.method = "BH")
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  df.july2019$TTV1to5perMLBAL and df.july2019$kmed_2 
+
+     pam1    pam2    pam3   
+pam2 0.64223 -       -      
+pam3 0.03376 0.48335 -      
+pam4 0.02205 0.03376 0.00034
+
+P value adjustment method: BH 
+
+#Beta
+
+> leveneTest(log10(TTMVperMLBAL)~kmed_2,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value  Pr(>F)  
+group   3  2.2426 0.08436 .
+      211                  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> summary(aov(log10(TTMVperMLBAL)~kmed_2,data=df.july2019))
+             Df Sum Sq Mean Sq F value  Pr(>F)   
+kmed_2        3   23.8   7.918   4.576 0.00397 **
+Residuals   211  365.1   1.730                   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+18 observations deleted due to missingness
+
+> TukeyHSD(aov(log10(TTMVperMLBAL)~kmed_2,data=df.july2019))
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = log10(TTMVperMLBAL) ~ kmed_2, data = df.july2019)
+
+$kmed_2
+                 diff         lwr        upr     p adj
+pam2-pam1 -0.06451062 -0.95749135  0.8284701 0.9976711
+pam3-pam1 -0.64448686 -1.16370666 -0.1252671 0.0081775
+pam4-pam1  0.25658458 -0.54484757  1.0580167 0.8406155
+pam3-pam2 -0.57997624 -1.49498458  0.3350321 0.3577031
+pam4-pam2  0.32109520 -0.77887960  1.4210700 0.8740412
+pam4-pam3  0.90107144  0.07516638  1.7269765 0.0264125
+
+#Gamma
+
+> leveneTest(log10(TTMDVperMLBAL)~kmed_2,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value  Pr(>F)  
+group   3  3.2025 0.02422 *
+      212                  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> kruskal.test(log10(TTMDVperMLBAL)~kmed_2, data=df.july2019)
+
+	Kruskal-Wallis rank sum test
+
+data:  log10(TTMDVperMLBAL) by kmed_2
+Kruskal-Wallis chi-squared = 8.9384, df = 3, p-value = 0.03012
+
+> posthoc.kruskal.dunn.test(log10(df.july2019$TTMDVperMLBAL),df.july2019$kmed_2,p.adjust.method = "BH")
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  log10(df.july2019$TTMDVperMLBAL) and df.july2019$kmed_2 
+
+     pam1  pam2  pam3 
+pam2 0.457 -     -    
+pam3 0.054 0.629 -    
+pam4 0.428 0.274 0.054
+
+P value adjustment method: BH  
+
+#Anelloviridae by Immunosuppresant concentrations
+
+> summary(lm(AnelloAllPerMLBAL~TacrolimusConc,data=df.july2019))
+
+Call:
+lm(formula = AnelloAllPerMLBAL ~ TacrolimusConc, data = df.july2019)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-3132562 -3097142 -3052403 -2563838 73045098 
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)     3168089     919326   3.446 0.000682 *** 
+
+TacrolimusConc    -6237      55793  -0.112 0.911093    
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 10510000 on 219 degrees of freedom
+  (12 observations deleted due to missingness)
+Multiple R-squared:  5.706e-05,	Adjusted R-squared:  -0.004509 
+F-statistic: 0.0125 on 1 and 219 DF,  p-value: 0.9111
+
+
+> summary(lm(AnelloAllPerMLBAL~PrednisoneDosis,data=df.july2019))
+
+Call:
+lm(formula = AnelloAllPerMLBAL ~ PrednisoneDosis, data = df.july2019)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-3225117 -3110836 -3004298 -2602969 72982197 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)   
+(Intercept)      3272800    1011996   3.234  0.00141 **
+PrednisoneDosis    -9482      39012  -0.243  0.80820   
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 10600000 on 214 degrees of freedom
+  (17 observations deleted due to missingness)
+Multiple R-squared:  0.000276,	Adjusted R-squared:  -0.004396 
+F-statistic: 0.05908 on 1 and 214 DF,  p-value: 0.8082
+
+
+#Anelloviridae by time
+
+
+> leveneTest(log10(AnelloAllPerMLBAL)~TimeWindows5,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value Pr(>F)  
+group   4  2.1731  0.073 .
+      219                 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> summary(aov(log10(AnelloAllPerMLBAL)~TimeWindows5,data=df.july2019))
+              Df Sum Sq Mean Sq F value         Pr(>F)    
+TimeWindows5   4   62.6  15.651   13.57 0.000000000669 ***
+Residuals    219  252.5   1.153                           
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+9 observations deleted due to missingness
+> TukeyHSD(aov(log10(AnelloAllPerMLBAL)~TimeWindows5,data=df.july2019))
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = log10(AnelloAllPerMLBAL) ~ TimeWindows5, data = df.july2019)
+
+$TimeWindows5
+          diff        lwr         upr     p adj
+2-1  1.2886997  0.6726663  1.90473320 0.0000003
+3-1  1.4591033  0.8083647  2.10984193 0.0000000
+4-1  0.7447872  0.1601990  1.32937530 0.0049871
+5-1  0.3846252 -0.2810621  1.05031258 0.5058545
+3-2  0.1704036 -0.4739649  0.81477212 0.9499574
+4-2 -0.5439126 -1.1214014  0.03357626 0.0755846
+5-2 -0.9040745 -1.5635362 -0.24461282 0.0019380
+4-3 -0.7143162 -1.3286913 -0.09994099 0.0136241
+5-3 -1.0744781 -1.7664703 -0.38248589 0.0002786
+5-4 -0.3601619 -0.9903490  0.27002513 0.5169452
+
+
+
+> leveneTest(log10(TTV1to5perMLBAL)~TimeWindows5,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value       Pr(>F)    
+group   4  9.1308 0.0000007984 ***
+      212                         
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> kruskal.test(log10(TTV1to5perMLBAL)~TimeWindows5, data=df.july2019)
+
+	Kruskal-Wallis rank sum test
+
+data:  log10(TTV1to5perMLBAL) by TimeWindows5
+Kruskal-Wallis chi-squared = 44.296, df = 4, p-value = 0.000000005569
+
+> posthoc.kruskal.dunn.test(log10(df.july2019$TTV1to5perMLBAL),df.july2019$TimeWindows5,p.adjust.method = "BH")
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  log10(df.july2019$TTV1to5perMLBAL) and df.july2019$TimeWindows5 
+
+  1           2           3       4      
+2 0.000000313 -           -       -      
+3 0.18554     0.00064     -       -      
+4 0.33629     0.000009274 0.57471 -      
+5 0.45223     0.000000053 0.05443 0.09766
+
+P value adjustment method: BH 
+
+
+> leveneTest(log10(TTMVperMLBAL)~TimeWindows5,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value  Pr(>F)  
+group   4  2.7491 0.02929 *
+      210                  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+> kruskal.test(log10(TTMVperMLBAL)~TimeWindows5, data=df.july2019)
+
+	Kruskal-Wallis rank sum test
+
+data:  log10(TTMVperMLBAL) by TimeWindows5
+Kruskal-Wallis chi-squared = 24.611, df = 4, p-value = 0.00006024
+
+> posthoc.kruskal.dunn.test(log10(df.july2019$TTMVperMLBAL),df.july2019$TimeWindows5,p.adjust.method = "BH")
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  log10(df.july2019$TTMVperMLBAL) and df.july2019$TimeWindows5 
+
+  1        2      3      4     
+2 0.000046 -      -      -     
+3 0.0015   0.4479 -      -     
+4 0.0050   0.1486 0.4479 -     
+5 0.1351   0.0340 0.1486 0.3779
+
+P value adjustment method: BH 
+
+> leveneTest(log10(TTMDVperMLBAL)~TimeWindows5,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value  Pr(>F)  
+group   4  2.4499 0.04726 *
+      211                  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> kruskal.test(log10(TTMDVperMLBAL)~TimeWindows5, data=df.july2019)
+
+	Kruskal-Wallis rank sum test
+
+data:  log10(TTMDVperMLBAL) by TimeWindows5
+Kruskal-Wallis chi-squared = 38.828, df = 4, p-value = 0.00000007559
+
+> posthoc.kruskal.dunn.test(log10(df.july2019$TTMDVperMLBAL),df.july2019$TimeWindows5,p.adjust.method = "BH")
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  log10(df.july2019$TTMDVperMLBAL) and df.july2019$TimeWindows5 
+
+  1         2      3      4     
+2 0.0000035 -      -      -     
+3 0.0000035 0.9051 -      -     
+4 0.0022    0.0491 0.0491 -     
+5 0.2717    0.0011 0.0011 0.0956
+
+P value adjustment method: BH 
+
+#FEV lung function with interactions
+
+> leveneTest(FEV1PercentBaseline~PamMicrobLevel2,data=df.sept2019)
+Levene's Test for Homogeneity of Variance (center = median)
+       Df F value Pr(>F)  
+group   3  3.0267 0.0306 *
+      202                 
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+> kruskal.test(FEV1PercentBaseline~PamMicrobLevel2,data=df.sept2019)
+
+	Kruskal-Wallis rank sum test
+
+data:  FEV1PercentBaseline by PamMicrobLevel2
+Kruskal-Wallis chi-squared = 11.051, df = 3, p-value = 0.01145
+
+> posthoc.kruskal.dunn.test(df.sept2019$FEV1PercentBaseline,df.sept2019$PamMicrobLevel2,p.adjust.method = "BH")
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  df.sept2019$FEV1PercentBaseline and df.sept2019$PamMicrobLevel2 
+
+     pam1  pam2  pam3 
+pam2 0.039 -     -    
+pam3 0.933 0.039 -    
+pam4 0.039 0.933 0.040
+
+P value adjustment method: BH 
+
+#Interaction of lung function with pathology and pams
+
+> summary(lm(FEV1PercentOfBaseline~kmed_2*PositiveBiopsyScore, data=df.july2019))
+
+Call:
+lm(formula = FEV1PercentOfBaseline ~ kmed_2 * PositiveBiopsyScore, 
+    data = df.july2019)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-55.461  -4.467   2.247   9.358  20.439 
+
+Coefficients:
+                                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                        85.7526     2.2310  38.437   <2e-16 ***
+kmed_2pam2                        -14.0526     6.5425  -2.148   0.0338 *  
+kmed_2pam3                         -0.9915     3.1986  -0.310   0.7571    
+kmed_2pam4                        -11.7726     6.5425  -1.799   0.0745 .  
+PositiveBiopsyScoreYes             -2.9860     4.1936  -0.712   0.4779    
+kmed_2pam2:PositiveBiopsyScoreYes   6.9060     9.6561   0.715   0.4759    
+kmed_2pam3:PositiveBiopsyScoreYes   0.6670     5.7267   0.116   0.9075    
+kmed_2pam4:PositiveBiopsyScoreYes -25.3940    12.2467  -2.074   0.0403 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 13.75 on 117 degrees of freedom
+  (108 observations deleted due to missingness)
+Multiple R-squared:  0.1688,	Adjusted R-squared:  0.119 
+F-statistic: 3.394 on 7 and 117 DF,  p-value: 0.002461
+
+
+> summary(lm(FEV1PercentOfBaseline~kmed_2*CLADonDayOfBALsampling, data=df.july2019))
+
+Call:
+lm(formula = FEV1PercentOfBaseline ~ kmed_2 * CLADonDayOfBALsampling, 
+    data = df.july2019)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-45.295  -4.220   2.683   8.936  27.867 
+
+Coefficients: (1 not defined because of singularities)
+                                     Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                           85.1667     1.8187  46.827  < 2e-16 ***
+kmed_2pam2                           -11.1767     4.4920  -2.488 0.014157 *  
+kmed_2pam3                             0.9282     2.4933   0.372 0.710326    
+kmed_2pam4                           -19.2952     5.2352  -3.686 0.000339 ***
+CLADonDayOfBALsamplingYes             -4.9167     9.3626  -0.525 0.600415    
+kmed_2pam2:CLADonDayOfBALsamplingYes   0.5267    16.5296   0.032 0.974633    
+kmed_2pam3:CLADonDayOfBALsamplingYes -24.8448    12.1161  -2.051 0.042399 *  
+kmed_2pam4:CLADonDayOfBALsamplingYes       NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 12.99 on 125 degrees of freedom
+  (101 observations deleted due to missingness)
+Multiple R-squared:  0.2211,	Adjusted R-squared:  0.1837 
+F-statistic: 5.914 on 6 and 125 DF,  p-value: 1.846e-05
+
+
+> summary(lm(FEV1PercentOfBaseline~kmed_2*ClinicallySuspectedInfection, data=df.july2019))
+
+Call:
+lm(formula = FEV1PercentOfBaseline ~ kmed_2 * ClinicallySuspectedInfection, 
+    data = df.july2019)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-55.440  -3.645   1.715   8.909  23.900 
+
+Coefficients:
+                                           Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                                  85.845      1.868  45.953   <2e-16 ***
+kmed_2pam2                                  -13.020      5.073  -2.566   0.0115 *  
+kmed_2pam3                                   -1.105      2.617  -0.422   0.6735    
+kmed_2pam4                                  -11.865      6.252  -1.898   0.0602 .  
+ClinicallySuspectedInfectionYes             -11.570      6.927  -1.670   0.0975 .  
+kmed_2pam2:ClinicallySuspectedInfectionYes    4.845     15.755   0.308   0.7590    
+kmed_2pam3:ClinicallySuspectedInfectionYes   -2.770     10.520  -0.263   0.7928    
+kmed_2pam4:ClinicallySuspectedInfectionYes  -11.110     16.173  -0.687   0.4935    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 13.34 on 118 degrees of freedom
+  (107 observations deleted due to missingness)
+Multiple R-squared:  0.1559,	Adjusted R-squared:  0.1058 
+F-statistic: 3.113 on 7 and 118 DF,  p-value: 0.004742
+
+
+> summary(lm(FEV1PercentOfBaseline~kmed_2*EndoscopyInflammatoryScoreOfMucosa, data=df.july2019))
+
+Call:
+lm(formula = FEV1PercentOfBaseline ~ kmed_2 * EndoscopyInflammatoryScoreOfMucosa, 
+    data = df.july2019)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-55.937  -4.502   2.673   8.713  28.680 
+
+Coefficients:
+                                              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                                    85.4766     2.0511  41.673  < 2e-16 ***
+kmed_2pam2                                     -5.4863     5.8267  -0.942 0.348335    
+kmed_2pam3                                     -0.2392     2.8349  -0.084 0.932888    
+kmed_2pam4                                    -25.3566     6.4101  -3.956 0.000131 ***
+EndoscopyInflammatoryScoreOfMucosa             -0.6489     3.0192  -0.215 0.830206    
+kmed_2pam2:EndoscopyInflammatoryScoreOfMucosa  -4.7253     7.5303  -0.628 0.531538    
+kmed_2pam3:EndoscopyInflammatoryScoreOfMucosa  -2.4806     4.6052  -0.539 0.591135    
+kmed_2pam4:EndoscopyInflammatoryScoreOfMucosa   8.7889     8.0274   1.095 0.275807    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 13.58 on 118 degrees of freedom
+  (107 observations deleted due to missingness)
+Multiple R-squared:  0.1392,	Adjusted R-squared:  0.08813 
+F-statistic: 2.726 on 7 and 118 DF,  p-value: 0.0117
+
+
+
+
+#Immunosuppresant dosage
+
+#Tacrolimus
+
+> leveneTest(TacrolimusConc~kmed_2,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value Pr(>F)
+group   3  1.2516 0.2919
+      226               
+> summary(aov(TacrolimusConc~kmed_2, data=df.july2019))
+             Df Sum Sq Mean Sq F value Pr(>F)
+kmed_2        3    217   72.49   0.463  0.708
+Residuals   226  35375  156.53               
+3 observations deleted due to missingness
+
+#Prednisone
+
+> leveneTest(PrednisoneDosis~kmed_2,data=df.july2019,center=mean)
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value Pr(>F)
+group   3  0.7639 0.5154
+      221               
+> summary(aov(PrednisoneDosis~kmed_2, data=df.july2019))
+             Df Sum Sq Mean Sq F value Pr(>F)
+kmed_2        3    384   128.0    0.38  0.768
+Residuals   221  74452   336.9               
+8 observations deleted due to missingness
+
+
+
+#Macrophage in BAL
+
+> leveneTest(log10(BALMacroNumber)~PamMicrobLevel2,data=df.sept2019)
+Levene's Test for Homogeneity of Variance (center = median)
+       Df F value Pr(>F)
+group   3  1.8934 0.1316
+      220               
+> summary(aov(log10(BALMacroNumber)~PamMicrobLevel2,data=df.sept2019))
+                 Df Sum Sq Mean Sq F value Pr(>F)  
+PamMicrobLevel2   3  0.847  0.2825   2.325 0.0757 .
+Residuals       220 26.726  0.1215                 
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+10 observations deleted due to missingness
+
+
+#Neutrophil in BAL 
+
+> str(pmn)
+'data.frame':	234 obs. of  2 variables:
+ $ pam    : Factor w/ 4 levels "pam1","pam2",..: 2 1 1 1 2 1 1 1 1 1 ...
+ $ log_pmn: num  4.24 4.24 3.34 3.99 3.83 ...
+ 
+> df.pmn<-subset(pmn,!is.na(log_pmn))
+> str(df.pmn)
+'data.frame':	224 obs. of  2 variables:
+ $ pam    : Factor w/ 4 levels "pam1","pam2",..: 2 1 1 1 2 1 1 1 1 1 ...
+ $ log_pmn: num  4.24 4.24 3.34 3.99 3.83 ...
+
+> df.pmn<-subset(df.pmn,log_pmn!="-Inf")
+
+> leveneTest(log_pmn~pam,data=df.pmn)
+Levene's Test for Homogeneity of Variance (center = median)
+       Df F value Pr(>F)
+group   3  2.0095 0.1137
+      209               
+> summary(aov(log_pmn~pam,data=df.pmn))
+             Df Sum Sq Mean Sq F value      Pr(>F)    
+pam           3  12.67   4.225   11.72 0.000000395 ***
+Residuals   209  75.32   0.360                        
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> TukeyHSD(aov(log_pmn~pam,data=df.pmn))
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = log_pmn ~ pam, data = df.pmn)
+
+$pam
+                 diff         lwr         upr     p adj
+pam2-pam1  0.79425894  0.39648271  1.19203517 0.0000032
+pam3-pam1 -0.05028503 -0.29107403  0.19050398 0.9489074
+pam4-pam1  0.34805554 -0.01115454  0.70726563 0.0613625
+pam3-pam2 -0.84454397 -1.25483485 -0.43425309 0.0000015
+pam4-pam2 -0.44620340 -0.93547955  0.04307276 0.0877928
+pam4-pam3  0.39834057  0.02531971  0.77136144 0.0312314
+
+#Lymphocytes in Blood 
+
+> leveneTest(BloodBcellNumber~PamMicrobLevel2,data=df.sept2019)
+
+Levene's Test for Homogeneity of Variance (center = median)
+      Df F value Pr(>F)
+group  3  1.3671 0.2585
+      83               
+> summary(aov(BloodBcellNumber~PamMicrobLevel2,data=df.sept2019))
+                Df Sum Sq Mean Sq F value Pr(>F)  
+PamMicrobLevel2  3 103804   34601   3.839 0.0126 *
+Residuals       83 748065    9013                 
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+147 observations deleted due to missingness
+
+> TukeyHSD(aov(BloodBcellNumber~PamMicrobLevel2,data=df.sept2019))
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = BloodBcellNumber ~ PamMicrobLevel2, data = df.sept2019)
+
+$PamMicrobLevel2
+               diff         lwr       upr     p adj
+pam2-pam1  76.86111  -32.897005 186.61923 0.2640079
+pam3-pam1  62.29444    5.111775 119.47711 0.0272425
+pam4-pam1 100.29444  -18.499568 219.08846 0.1280295
+pam3-pam2 -14.56667 -123.537976  94.40464 0.9851215
+pam4-pam2  23.43333 -127.287953 174.15462 0.9769760
+pam4-pam3  38.00000  -80.067437 156.06744 0.8333457
+
+
+#Current infection
+
+Generalized Linear model for Binomial data
+
+mymodel= glm(ClinicalInfection~PamMicrobLevel2,data=df.sept2019, family="binomial")
+
+> summary(mymodel)
+
+Call:
+glm(formula = ClinicalInfection ~ PamMicrobLevel2, family = "binomial", 
+    data = df.sept2019)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.3153  -0.4717  -0.4717  -0.2838   2.5425  
+
+Coefficients:
+                    Estimate Std. Error z value Pr(>|z|)    
+(Intercept)          -2.1401     0.3052  -7.012 2.34e-12 ***
+
+PamMicrobLevel2pam2   2.4585     0.5559   4.422 9.76e-06 *** 
+PamMicrobLevel2pam3  -1.0518     0.6633  -1.586   0.1128    
+PamMicrobLevel2pam4   1.3134     0.5463   2.404   0.0162 *  
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 189.78  on 231  degrees of freedom
+Residual deviance: 156.12  on 228  degrees of freedom
+  (2 observations deleted due to missingness)
+AIC: 164.12
+
+
+#Random Forest predictions: Gene exp as predictors of PAMs
+
+Call:
+ randomForest(formula = response ~ ., data = rf.data) 
+               Type of random forest: classification
+                     Number of trees: 500
+No. of variables tried at each split: 5
+
+        OOB estimate of  error rate: 19.65%
+Confusion matrix:
+     pam1 pam2 pam3 pam4 class.error
+pam1  103    0    8    1  0.08035714
+pam2    5    0   13    0  1.00000000
+pam3   13    0   61    1  0.18666667
+pam4    4    0    0   20  0.16666667
+
+    COX      MRC1    DCSIGN       TNF       IDO      IL10     IL1RN     MMP12     TIMP1       FN1     PDGFD    COL6A2      MMP7 
+ Rejected Confirmed  Rejected Confirmed Confirmed Confirmed Confirmed Confirmed Tentative  Rejected Confirmed Tentative Tentative 
+     MMP9    CHI3L1     THBS1      IGF1    IGFBP2      SPP1      LY96      TLR5      CAMP     NLRP3    IFITM2      MAVS      TLR7 
+Tentative Confirmed  Rejected Confirmed Tentative Tentative Confirmed Confirmed Confirmed  Rejected  Rejected Confirmed Confirmed 
+  S100A12      TLR2      TLR3    IFNLR1     RSAD2 
+Confirmed Confirmed Confirmed Confirmed Confirmed 
+
+
+Highest importance goes to set 1: 6 genes 
+
+Individual tests for these genes
+
+#IFNLR1
+
+> leveneTest(IFNLR1~response,data = rf.data,center=mean)
+
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value   Pr(>F)   
+group   3  5.4304 0.001268 **
+      225                    
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  IFNLR1 by response 
+
+     pam1    pam2   pam3  
+pam2 4.8e-05 -      -     
+pam3 6.9e-12 0.8948 -     
+pam4 0.3317  0.0095 0.0010
+
+P value adjustment method: BH 
+
+#MRC1
+
+> leveneTest(MRC1~response,data = rf.data,center=mean)
+
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value Pr(>F)
+group   3  0.8759 0.4543
+      225 
+      
+> summary(aov(MRC1~response,data = rf.data))
+             Df Sum Sq Mean Sq F value        Pr(>F)    
+response      3  13.36   4.452   17.93 0.00000000018 ***
+Residuals   225  55.87   0.248                          
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> TukeyHSD(aov(MRC1~response,data = rf.data))
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = MRC1 ~ response, data = rf.data)
+
+$response
+                diff         lwr         upr     p adj
+pam2-pam1  0.2480717 -0.07944425  0.57558774 0.2061984
+pam3-pam1  0.4898163  0.29737992  0.68225275 0.0000000
+pam4-pam1 -0.1425596 -0.43266843  0.14754920 0.5817738
+pam3-pam2  0.2417446 -0.09677257  0.58026175 0.2535830
+pam4-pam2 -0.3906314 -0.79278210  0.01151938 0.0604234
+pam4-pam3 -0.6323760 -0.93484953 -0.32990237 0.0000010
+
+#IL10
+
+> leveneTest(IL10~response,data = rf.data,center=mean)
+
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value      Pr(>F)    
+group   3  10.786 0.000001194 ***
+      225                        
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+> posthoc.kruskal.dunn.test(IL10~response,data = rf.data,p.adjust.method = "BH")
+
+
+	Pairwise comparisons using Dunn's-test for multiple	comparisons of independent samples 
+
+data:  IL10 by response 
+
+     pam1    pam2    pam3   
+pam2 0.7099  -       -      
+pam3 0.0055  0.0531  -      
+pam4 8.4e-13 5.2e-08 3.1e-07
+
+P value adjustment method: BH 
+
+#IL1RN
+
+> leveneTest(IL1RN~response,data = rf.data,center=mean)
+
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value    Pr(>F)    
+group   3  5.8454 0.0007328 ***
+      225                      
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> posthoc.kruskal.dunn.test(IL1RN~response,data = rf.data,p.adjust.method = "BH")
+
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  IL1RN by response 
+
+     pam1          pam2  pam3 
+pam2 0.013         -     -    
+pam3 0.00000008377 0.602 -    
+pam4 0.00000000083 0.019 0.013
+
+P value adjustment method: BH 
+
+
+#LY96
+
+> leveneTest(LY96~response,data = rf.data,center=mean)
+
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value   Pr(>F)   
+group   3  4.2224 0.006273 **
+      225                    
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> posthoc.kruskal.dunn.test(LY96~response,data = rf.data,p.adjust.method = "BH")
+
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  LY96 by response 
+
+     pam1     pam2  pam3 
+pam2 0.000015 -     -    
+pam3 0.000015 0.101 -    
+pam4 0.145    0.015 0.145
+
+P value adjustment method: BH 
+
+
+#Random Forest predictions: Gene exp as predictors of Bacterial numbers
+
+
+randomForest(formula = copy ~ ., data = exp_copy_data, ntree = 1000,      mtry = 21) 
+               Type of random forest: regression
+                     Number of trees: 1000
+No. of variables tried at each split: 21
+
+          Mean of squared residuals: 0.7827618
+                    % Var explained: 42.21
+                    
+                    
+     COX      MRC1    DCSIGN       TNF       IDO      IL10     IL1RN     MMP12     TIMP1       FN1     PDGFD    COL6A2      MMP7      MMP9 
+ Rejected Confirmed Confirmed Confirmed Tentative Confirmed Tentative  Rejected  Rejected Confirmed Confirmed Tentative Confirmed Tentative 
+   CHI3L1     THBS1      IGF1    IGFBP2      SPP1      LY96      TLR5      CAMP     NLRP3    IFITM2      MAVS      TLR7   S100A12      TLR2 
+ Rejected  Rejected Confirmed  Rejected  Rejected Confirmed  Rejected Tentative  Rejected  Rejected Confirmed  Rejected  Rejected  Rejected 
+     TLR3    IFNLR1     RSAD2 
+ Rejected Confirmed Tentative 
+ 
+ 
+Highest importance goes to: 5 genes 
+
+Individual tests for these genes
+
+# Stepwise Regression
+
+Stepwise Model Path 
+Analysis of Deviance Table
+
+Initial Model:
+copy ~ PDGFD + IFNLR1 + TNF + IL10 + LY96
+
+Final Model:
+copy ~ PDGFD + IFNLR1
+
+Step:  AIC=31.23
+copy ~ PDGFD + IFNLR1
+
+         Df Sum of Sq    RSS    AIC
+<none>                255.67 31.226
++ TNF     1     0.619 255.05 32.670
++ LY96    1     0.258 255.41 32.994
++ IL10    1     0.109 255.56 33.128
+- IFNLR1  1     7.346 263.01 35.713
+- PDGFD   1    39.865 295.53 62.408
+
+Call:
+lm(formula = copy ~ PDGFD + IFNLR1, data = exp_copy_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.1389 -0.7710 -0.0806  0.6266  3.1740 
+
+Coefficients:
+            Estimate Std. Error t value     Pr(>|t|)    
+(Intercept)  3.30747    0.14020  23.591      < 2e-16 ***
+PDGFD       -0.26678    0.04494  -5.936 0.0000000109 ***
+IFNLR1       0.16757    0.06576   2.548       0.0115 *  
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#According to PAMs
+
+> leveneTest(PDGFD~kmed_2,data = df.july2019,center=mean)
+
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value      Pr(>F)    
+group   3  10.779 0.000001204 ***
+      225                        
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> posthoc.kruskal.dunn.test(PDGFD~kmed_2,data =df.july2019,p.adjust.method = "BH")
+
+Pairwise comparisons using Dunn's-test for multiple	comparisons of independent samples 
+
+data:  PDGFD by kmed_2 
+
+     pam1       pam2       pam3      
+pam2 0.00029    -          -         
+pam3 0.00001021 0.31165    -         
+pam4 0.01641    0.00000447 0.00000084
+
+P value adjustment method: BH 
+
+> leveneTest(IFNLR1~kmed_2,data = df.july2019,center=mean)
+
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value   Pr(>F)   
+group   3  5.4296 0.001267 **
+      227                    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+> posthoc.kruskal.dunn.test(IFNLR1~kmed_2,data =df.july2019,p.adjust.method = "BH")
+
+
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  IFNLR1 by kmed_2 
+
+     pam1    pam2    pam3   
+pam2 4.3e-05 -       -      
+pam3 4.1e-12 0.89384 -      
+pam4 0.32313 0.00940 0.00096
+
+P value adjustment method: BH 
+
+
+#Random Forest predictions: Gene exp as predictors of Anellovirus numbers
+
+Call:
+ randomForest(formula = virus ~ ., data = exp_virus_data) 
+               Type of random forest: regression
+                     Number of trees: 500
+No. of variables tried at each split: 10
+
+          Mean of squared residuals: 1.309797
+                    % Var explained: 6.23
+                    
+
+# Stepwise Regression
+
+Stepwise Model Path 
+Analysis of Deviance Table
+
+Initial Model:
+virus ~ IFITM2 + IGF1 + RSAD2 + TLR3
+
+Final Model:
+virus ~ IFITM2 + TLR3
+
+Step:  AIC=63.46
+virus ~ IFITM2 + TLR3
+
+         Df Sum of Sq    RSS    AIC
+<none>                285.67 63.462
++ IGF1    1    2.3144 283.35 63.672
++ RSAD2   1    0.1120 285.55 65.376
+- IFITM2  1    5.1972 290.86 65.429
+- TLR3    1   16.6685 302.33 73.938
+
+Call:
+lm(formula = virus ~ IFITM2 + TLR3, data = exp_virus_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.8545 -0.8335 -0.1432  0.7601  2.8567 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  4.76765    0.11313  42.144  < 2e-16 ***
+IFITM2      -0.05773    0.02905  -1.987 0.048186 *  
+TLR3         0.18588    0.05224   3.558 0.000458 ***
+
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.147 on 217 degrees of freedom
+Multiple R-squared:  0.07044,	Adjusted R-squared:  0.06187 
+F-statistic: 8.222 on 2 and 217 DF,  p-value: 0.0003615
+
+
+#According to PAMs
+
+> leveneTest(TLR3~kmed_2,data = df.july2019,center=mean)
+
+
+Levene's Test for Homogeneity of Variance (center = mean)
+       Df F value    Pr(>F)    
+group   3  6.0579 0.0005521 ***
+      227                      
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+> posthoc.kruskal.dunn.test(TLR3~kmed_2,data = df.july2019,p.adjust.method = "BH")
+Ties are present. z-quantiles were corrected for ties.
+	Pairwise comparisons using Dunn's-test for multiple	
+                         comparisons of independent samples 
+
+data:  TLR3 by kmed_2 
+
+     pam1  pam2  pam3 
+pam2 0.628 -     -    
+pam3 0.042 0.097 -    
+pam4 0.267 0.628 0.026
+
+P value adjustment method: BH 
+
