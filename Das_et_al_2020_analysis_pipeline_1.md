@@ -16,7 +16,7 @@ join_paired_ends.py -f R1.fastq.gz -r R2.fastq.gz -b Index.fastq.gz -j 10 -o joi
 ```
 validate_mapping_file.py -m map.txt -o validated_map
 ```
-#Demultiplexing and stored in folder split_lib_out.
+#Demultiplexing and stored in folder split_lib_out.\
  phred quality score: 28 in at least 75% of each sequence.
 ```
 split_libraries_fastq.py -i fastqjoin.join.fastq -m ../validated_map/map_corrected.txt -b fastqjoin.join_barcodes.fastq -o ../split_lib_out --barcode_type golay_12 --store_demultiplexed_fastq --phred_offset=33 -q 28 -p 0.75 --max_barcode_errors 2 --rev_comp_mapping_barcodes
