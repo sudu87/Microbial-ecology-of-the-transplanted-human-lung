@@ -36,3 +36,8 @@ R version 3.6.3
 The analysis is divided into 2 parts:
 
 
+## Data availibity 
+
+We have deposited the raw data from all samples used in the study to Short Read Archive, NCBI under the BioProject * PRJNA632552 * and BioSample accession * SAMN14911405 *. 
+
+
