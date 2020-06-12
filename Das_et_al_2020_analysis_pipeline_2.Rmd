@@ -192,35 +192,30 @@ write.csv(negative_otus,"negative_control_OTU_table_wTaxa.csv")
 neg_ctrl<-amp_boxplot(negatives,adjust_zero=T,tax_add="OTU",detailed_output=T,normalise =F,tax_show = 30)
 neg_ctrl
 ```
-```
-
-```
-
 ### boxplots of the most abundant taxa according to read counts and grouped by samples
 ```{r}
 neg_sample<-amp_boxplot(negatives,adjust_zero=T,tax_add="OTU",plot_type = "point",detailed_output=TRUE,normalise = F,group_by = "Sample_SD")
 neg_sample$plot
 write.table(neg_sample$data,file = "negative_non_normalized_by_sample.txt")
 ```
-###heatmap of the most abundant taxa according to read counts and grouped by samples
+### heatmap of the most abundant taxa according to read counts and grouped by samples
 ```{r}
 neg_heat<-amp_heatmap(negatives,normalise = F,tax_add="OTU",tax_aggregate = "Genus",tax_show = 40,plot_values =F,color_vector = c("white","red","darkred"),min_abundance = 0.1,measure = "median")
 ```
 
-###Removing negative controls from phyloseq object.
+### Removing negative controls from phyloseq object.
 ```{r}
 ltx_noneg<-subset_samples(ltx_otus,NegCtrl!=1)
 ltx_noneg
 ```
-###Take out samples with NA in 16S copy column.
+### Take out samples with NA in 16S copy column.
 ```{r}
 ltx_otus2<-subset_samples(ltx_noneg,Cop16SPerMLBAL!="NA")
 sample_data(ltx_otus2)$Cop16SPerMLBAL<-as.numeric(as.character(sample_data(ltx_otus2)$Cop16SPerMLBAL))#converting the variable to numeric
 ltx_otus3<-subset_samples(ltx_otus2,Cop16SPerMLBAL>0)
 ltx_otus3
-
 ```
-###Removal of contaminating OTUs
+### Removal of contaminating OTUs
 ```
 As we saw before, there are some OTUs that come from the negative controls. We will remove them.
 ```
@@ -246,7 +241,7 @@ ltx_rare
 
 ```
 
-###Compositional data
+### Compositional data
 ```{r}
 ltx_rare_rel<-transform_sample_counts(ltx_rare, function(x) x/sum(x))
 ```
@@ -255,30 +250,30 @@ tax_summary<-table(tax_table(eric.june2019)[, "Phylum"], exclude = NULL)
 write.csv(tax_summary,"tables/tax_summary_S1.csv")
 ```
 
-###Compute prevalence of each feature, store as data.frame
+### Compute prevalence of each feature, store as data.frame
 ```{r}
 prevdf = apply(X = otu_table(ltx_rare),
                MARGIN = ifelse(taxa_are_rows(ltx_rare), yes = 1, no = 2),
                FUN = function(x){sum(x > 0)})
 ```
-###Add taxonomy and total read counts to this data.frame
+### Add taxonomy and total read counts to this data.frame
 ```{r}
 prevdf = data.frame(Prevalence = prevdf,TotalAbundance = taxa_sums(ltx_rare),tax_table(ltx_rare))
 plyr::ddply(prevdf, "Phylum", function(df1){cbind(mean(df1$Prevalence),sum(df1$Prevalence))})
 ```
 
-###Subset to the remaining phyla
+### Subset to the remaining phyla
 ```{r}
 prevdf1 = subset(prevdf, Phylum %in% get_taxa_unique(ltx_rare, "Phylum"))
 prev_plot<-ggplot(prevdf1, aes(TotalAbundance, Prevalence / nsamples(ltx_rare_rel),color=Phylum)) +
 geom_hline(yintercept = 0.5, alpha = 0.5, linetype = 2) +geom_point(size = 2, alpha = 0.7) + xlab("Cumulative Abundance") + ylab("Prevalence [Frac. Samples]")  + theme(legend.position="none")+facet_wrap(~Phylum)
 ```
-###Define prevalence threshold as 50% of total samples
+### Define prevalence threshold as 50% of total samples
 ```{r}
 prevalenceThreshold = 0.5 * nsamples(ltx_rare_rel)
 prevalenceThreshold
 ```
-###Execute prevalence filter, using `prune_taxa()` function.
+### Execute prevalence filter, using `prune_taxa()` function.
 ```{r}
 keepTaxa = rownames(prevdf1)[(prevdf1$Prevalence >= prevalenceThreshold)]
 hi_prev_rel = prune_taxa(keepTaxa, ltx_rare_rel)
@@ -296,7 +291,7 @@ sample_data(hi_prev_rel)
 tax_summary<-table(tax_table(hi_prev_rel)[, "Phylum"], exclude = NULL)
 View(tax_summary)
 ```
-###Converting ltx_rare_rel object to ampvis object
+### Converting ltx_rare_rel object to ampvis object
 ```{r}
 obj3<-ltx_rare_rel
 otutable_exp <- data.frame(OTU = rownames(phyloseq::otu_table(obj3)@.Data),
@@ -315,7 +310,7 @@ write.csv(detailed_taxa$data,"tables/amp_freq_detailed_genus.csv")
 amp_box_median<-amp_boxplot(amp_exp,sort_by = "median",tax_aggregate = "OTU",tax_add = "Genus",tax_show = 22)+theme(axis.text.y = element_text(face="italic",size=12),axis.text.x = element_text(size=20),axis.title = element_text(size = 18))
 ```
 
-#richness vs bacterial copy
+### richness vs bacterial copy
 ```{r}
 alpha_summary<-amp_alphadiv(amp_exp)
 alpha_summary$log_copy<-log10(alpha_summary$Cop16SPerMLBAL)
@@ -333,7 +328,7 @@ getmode(alpha_summary$log_copy)
 alpha_summary$pielou<-alpha_summary$Shannon/log(alpha_summary$ObservedOTUs)
 alpha_summary
 ```
-###core analysis using eric's data at OTU level
+### core analysis using at OTU level
 ```{r}
 amp_exp
 core<-amp_core(amp_exp,tax_empty = "OTU",tax_aggregate = "OTU",abund_thrh = 1,detailed_output=T,plotly = T)
@@ -341,7 +336,7 @@ write.csv(eric_core$data,"tables/incidence_abundance.csv")
 core_data<-read.csv("tables/incidence_abundance.csv")
 ```
 
-###Creating a simple incidence plot
+### Creating a simple incidence plot
 ```{r}
 incidence<-read.csv("incidence_abundance.csv")
 incidence$taxa_info<-paste(incidence$Genus,";",incidence$OTU)
@@ -350,7 +345,7 @@ incidence_eric
 freq_plot<-ggplot(incidence,aes(x=reorder(OTU,-Freq_percent),y=Freq_percent))+geom_point(aes(color=factor(col)),size=3)+theme(legend.position =c(0.3,0.5),legend.text = element_text(size = 10,face="italic"),axis.title= element_blank(),axis.text.x = element_blank(),axis.text = element_text(size = 20),panel.grid=element_blank())+guides(fill=guide_legend(ncol = 3,byrow = T))+ylim(0,100)
 freq_plot
 ```
-###Refining the incidence and creating rank abundance plot
+### Refining the incidence and creating rank abundance plot
 ```{r}
 clusterData_eric = filter(incidence,Frequency >=23)
 View(clusterData)
@@ -358,7 +353,7 @@ clusterData$col=ifelse(clusterData$Abundance>1,paste(clusterData$taxa_info),"NA"
 rank_eric_otus<-ggplot(clusterData,aes(x=reorder(OTU,-Abundance),y=Abundance))+geom_point(aes(color=factor(col)),size=3)+theme(legend.position =c(0.1,0.5),axis.title= element_blank(),axis.text.x = element_blank(),axis.text = element_text(size = 20),panel.grid=element_blank(),legend.text = element_text(size = 10,face="italic"),panel.border =element_rect(colour="black"))+geom_hline(yintercept = 1, linetype = 2,color="red")
 rank_eric_otus
 ```
-#normalized phyloseq object
+### normalized phyloseq object
 ```{r}
 ltx_rare_rel
 ltx.rare.rel.abs <- ltx_rare_rel
@@ -368,7 +363,7 @@ otu_table(ltx.rare.rel.abs)[,n] <- otu_table(ltx_rare_rel)[,n]*sample_data(ltx_r
 }
 ltx.rare.rel.abs
 ```
-###Extracting lumicol bacteria data
+### Extracting lumicol bacteria data
 ```{r}
 lumicol_otus<-c("OTU_69",
 "OTU_30",
