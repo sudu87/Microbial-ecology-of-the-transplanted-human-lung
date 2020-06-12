@@ -18,7 +18,6 @@ library(grid)
 library(reshape2) # data manipulation package
 library(ape)
 library(devtools) 
-#library(ggtree)
 library(biomformat)
 library(phyloseq)
 library(ampvis2)
@@ -124,7 +123,14 @@ ltx_tree=ape::read.tree("c0_otus_final_tree.tre.tre")
 ltx_otus = merge_phyloseq(ltx_otus,sample,ltx_tree)
 ltx_otus
 ```
-
+Example output of phyloseq object looks like:
+```
+phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 8178 taxa and 275 samples ]
+sample_data() Sample Data:       [ 275 samples by 50 sample variables ]
+tax_table()   Taxonomy Table:    [ 8178 taxa by 7 taxonomic ranks ]
+phy_tree()    Phylogenetic Tree: [ 8178 tips and 8170 internal nodes ]
+```
 ##renaming taxonomy column names
 ```{r}
 colnames(tax_table(ltx_otus)) <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus","Species")
