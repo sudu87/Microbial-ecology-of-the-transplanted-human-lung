@@ -112,7 +112,7 @@ theme_set(theme_bw())
 choose_font("Arial")
 ```
 
-###Creating a phyloseq object
+### Creating a phyloseq object
 ```{r}
 ltx_otus<-import_biom("otus.biom",parseFunction = parse_taxonomy_default)
 sample<-import_qiime_sample_data("metadata.txt")
@@ -130,32 +130,32 @@ sample_data() Sample Data:       [ 275 samples by 50 sample variables ]
 tax_table()   Taxonomy Table:    [ 8178 taxa by 7 taxonomic ranks ]
 phy_tree()    Phylogenetic Tree: [ 8178 tips and 8170 internal nodes ]
 ```
-##renaming taxonomy column names
+## renaming taxonomy column names
 ```{r}
 colnames(tax_table(ltx_otus)) <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus","Species")
 rank_names(ltx_otus)
 ```
-##Create table, number of features for each phyla
+## Create table, number of features for each phyla
 ```{r}
 table(tax_table(ltx_otus)[, "Phylum"], exclude = NULL)
 ```
-##Exploring metadata
+## Exploring metadata
 ```{r}
 sample_names(ltx_otus)
 ```
-#Save workspace
+# Save workspace
 ```{r}
 save.image(file = "FILE.RData")
 load(file = "FILE.RData")
 ```
-###Storing Lumicol in another object for further exploration
+### Storing Lumicol in another object for further exploration
 ```{r}
 lumicol<-subset_samples(ltx_otus,Sample_SD=="LUMICOL")
 lumicol
 ```
 
-#Data exploration
-###Quality control of data
+# Data exploration
+### Quality control of data
 ```{r}
 readsumsdf = data.frame(nreads = sort(taxa_sums(ltx_otus), TRUE), sorted = 1:ntaxa(ltx_otus), type = "OTUs")
 readsumsdf = rbind(readsumsdf, data.frame(nreads = sort(sample_sums(ltx_otus),TRUE), sorted = 1:nsamples(ltx_otus), type = "Samples"))
@@ -164,7 +164,7 @@ p = ggplot(readsumsdf, aes(x = sorted, y = nreads)) + geom_point()
 p + ggtitle(title) + scale_y_log10() + facet_wrap(~type, 1, scales = "free")
 ```
 
-###Converting phyloseq to ampvis2
+### Converting phyloseq to ampvis2
 ```{r}
 obj1<-ltx_otus
 otutable <- data.frame(OTU = rownames(phyloseq::otu_table(obj1)@.Data),
@@ -181,18 +181,22 @@ meta2<-read.table("metadata.txt",header = T)
 object1<- amp_load(otutable,meta2,fasta = "c0_otus_final_sorted_phifil_test.fa ")
 ```
 
-###Analysis of negative control
+### Analysis of negative control
 ```{r}
 negatives<- amp_subset_samples(object1, NegCtrl %in% "1")
 negative_otus<-cbind(negatives$abund,negatives$tax)
 write.csv(negative_otus,"negative_control_OTU_table_wTaxa.csv")
 ```
-###boxplots of the most abundant taxa according to read counts.
+### boxplots of the most abundant taxa according to read counts.
 ```{r}
 neg_ctrl<-amp_boxplot(negatives,adjust_zero=T,tax_add="OTU",detailed_output=T,normalise =F,tax_show = 30)
 neg_ctrl
 ```
-###boxplots of the most abundant taxa according to read counts and grouped by samples
+```
+
+```
+
+### boxplots of the most abundant taxa according to read counts and grouped by samples
 ```{r}
 neg_sample<-amp_boxplot(negatives,adjust_zero=T,tax_add="OTU",plot_type = "point",detailed_output=TRUE,normalise = F,group_by = "Sample_SD")
 neg_sample$plot
