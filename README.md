@@ -23,7 +23,7 @@ We find that the lung microbiota post-transplant can be categorized into four di
 
 macOS 10.15.4 Catalina
 
-**Code languages:**
+**Coding languages and sotware requirements:**
 
 Python 2.7
 
