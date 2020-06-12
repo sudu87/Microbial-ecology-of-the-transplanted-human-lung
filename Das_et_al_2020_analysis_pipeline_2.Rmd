@@ -1,13 +1,12 @@
+# Microbial community analysis and associations with clinical metadata"
+### output: html_notebook
 ---
-title: "Microbial community analysis and associations with clinical metadata"
-output: html_notebook
----
-###Set working directory
+### Set working directory
 ```{r}
 setwd("<PATH>")
 ```
 
-###Load packages
+### Load packages
 ```{r}
 library(ggplot2)
 library(rmarkdown)
@@ -74,7 +73,7 @@ library(randomForest)
 library(dplyr) # for the "arrange" function
 library(rfUtilities) # to test model significance
 ```
-###Functions
+### Functions
 ```{r}
 #Summary SE function
 summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
