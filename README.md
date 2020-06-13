@@ -45,7 +45,7 @@ This pipeline has been tested on the following version of the required software.
 
 **3. Demo**
 
-All demo and instructions are provided with in line with the code in the individual markdown documents.
+All demo and instructions are provided in line with the code in the individual markdown documents.
 
 
 **4. Instructions for use**
