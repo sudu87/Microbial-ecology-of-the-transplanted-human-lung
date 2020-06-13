@@ -129,7 +129,7 @@ cat merged.fna lumicol.fna > merged_lumicol.fna
 vsearch --usearch_global merged_lumicol.fna --db c0_otus_final_sorted_phifil.fa --id 0.97 --self --maxaccepts 16 --wordlength 8 --strand both --log merged_lumicol.log --maxrejects 64 --uc map.uc
 ```
 
-**13. Convert to BIOM from generated mapping file 
+**13. Convert to BIOM from generated mapping file**
 ```
 biom from-uc -i map.uc -o otus.biom
 biom convert -i otus.biom -o otus_biom.csv --to-tsv
