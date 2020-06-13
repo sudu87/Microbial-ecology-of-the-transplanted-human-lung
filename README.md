@@ -65,4 +65,10 @@ as spreadsheet (.csv file). This was imported to the web application [Genocrunch
 
 We have deposited the raw data from all samples used in the study to Short Read Archive, NCBI under the BioProject **PRJNA632552** and BioSample accession **SAMN14911405**. 
 
+## Reference publication
 
+**A prevalent and culturable microbiota links ecological balance to clinical stability of the human lung after transplantation**
+
+Sudip Das, Eric Bernasconi, Angela Koutsokera, Daniel-Adrien Wurlod, Vishwachi Tripathi, Germán Bonilla-Rosso, John-David Aubert, Marie-France Derkenne, Louis Mercier, Céline Pattaroni, Alexis Rapin, Christophe von Garnier, Benjamin J. Marsland, Philipp Engel, Laurent P. Nicod
+
+bioRxiv 2020.05.21.106211; doi: https://doi.org/10.1101/2020.05.21.106211
