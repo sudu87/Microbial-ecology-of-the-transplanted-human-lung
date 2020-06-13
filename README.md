@@ -19,19 +19,17 @@ We find that the lung microbiota post-transplant can be categorized into four di
 
 ## Code environment and structure
 
-**Operating system:** 
+**1. System Requirements** 
 
-macOS 10.15.4 Catalina
+This pipeline has been tested on the following version of the required software.
 
-**Coding languages and software requirements:**
+* macOS 10.15.4 Catalina
+* Ubuntu 20.04
+* Python 2.7
+* Bash script
+* R version 3.6.3
+* [Genocrunch](https://genocrunch.epfl.ch/home/doc) v 2 Release 2018/06/08
 
-Python 2.7
-
-Bash script
-
-R version 3.6.3
-
-[Genocrunch](https://genocrunch.epfl.ch/home/doc) v 2 Release 2018/06/08
 **Structure** 
 
 The analysis is divided into 2 parts:
