@@ -37,7 +37,7 @@ This pipeline has been tested on the following version of the required software.
 ```
 #!/bin/bash
 ```
-* Genocrunch is a web application. To use it you need to create a free account. Further instructions can be found at https://genocrunch.epfl.ch/home/doc
+* Genocrunch is a web application. To use it, you need to create a free account. Further instructions can be found at https://genocrunch.epfl.ch/home/doc
 
 The analysis is divided into 2 parts:
 
