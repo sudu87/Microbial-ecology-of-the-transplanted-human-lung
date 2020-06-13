@@ -33,10 +33,12 @@ This pipeline has been tested on the following version of the required software.
 
 * Python 2.7 comes pre-installed with macOS and Ubuntu. 
 * For MS Windows, follow the [installation instructions](https://docs.python.org/3/using/windows.html).
-* For MS Windows 10 now comes with Bash Shell scripting option. Intiate this by typing:
+* For MS Windows 10 now comes with Bash Shell scripting option. Initiate this by typing the following on the Command prompt window
 ```
 #!/bin/bash
 ```
+* Genocrunch is a web application. To use it you need to create a free account. Further instructions can be found at https://genocrunch.epfl.ch/home/doc
+
 The analysis is divided into 2 parts:
 
 
