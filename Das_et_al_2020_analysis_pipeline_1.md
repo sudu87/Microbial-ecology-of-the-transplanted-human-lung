@@ -13,6 +13,7 @@ Example output:
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python
 ```
 **2. Activate QIIME environment**
+
 This is needed for only initial steps and later will be deactivated.
 ```
 conda activate qiime1
