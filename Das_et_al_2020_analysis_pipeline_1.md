@@ -12,7 +12,8 @@ Example output:
 ```
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python
 ```
-**2. Activate environment**
+**2. Activate QIIME environment**
+This is needed for only initial steps and later will be deactivated.
 ```
 conda activate qiime1
 ```
@@ -47,8 +48,11 @@ All sequences according to sample names and store in folder split_seq_out. This 
 ```
 split_sequence_file_on_sample_ids.py -i seqs.fastq -o ../split_seq_out  --file_type fastq
 ```
-
-**7. Merging and quality control**
+**7. deactivate QIIME environment**
+```
+conda deactivate
+```
+**8. Merging and quality control**
 FastQC reports attached separately. Sequences trimmed 40 bp from ends and kept minimum length to 280
 
 ```
@@ -56,14 +60,14 @@ cat *.fastq > merged.fastq
 fastx_trimmer -i merged.fastq -t 40 -m 280 -Q 33 -o merged_trimmed.fastq
 ```
 
-**8. Converting fastq to fasta and quality files**
+**9. Converting fastq to fasta and quality files**
 
 This conversion may be also included in the script for vsearch sith fastx toolkit.
 
 ```
 convert_fastaqual_fastq.py -c fastq_to_fastaqual -f merged.fastq -o fastq2fasta/ 
 ```
-**9. File conversions**
+**10. File conversions**
 
 gold.fa database file was formatted to be a proper fasta file by using FASTX toolkit :http://hannonlab.cshl.edu/fastx_toolkit
 
@@ -71,7 +75,7 @@ gold.fa database file was formatted to be a proper fasta file by using FASTX too
 fasta_formatter -i gold.fa.txt -o gold.fa
 ```
 
-**10. Integrating cultured sequences - LUMICOL**
+**11. Integrating cultured sequences - LUMICOL**
 
 LuMiCol and 16S seq data are going to be merged but only after dereplication step. refer to vsearch_mod.sh script
 Tasks performed by the script:
@@ -83,7 +87,7 @@ Tasks performed by the script:
 
 
 
-**11. Execute vsearch based OTU picking: vsearch.sh**
+**12. Execute vsearch based OTU picking: vsearch.sh**
 
 * Create a .sh file and route it to a computing cluster.
 * We ran on the High Performance Computing Cluster, from Swiss Institute of Bioinformatics for EPFL and UNIL. 
@@ -123,13 +127,13 @@ chmod +x vsearch.sh
 ./vsearch.sh 
 ```
 
-**12. Merge LuMiCol before last step of mapping all sequences at 97% to clusters made at 98%.**
+**13. Merge LuMiCol before last step of mapping all sequences at 97% to clusters made at 98%.**
 ```
 cat merged.fna lumicol.fna > merged_lumicol.fna
 vsearch --usearch_global merged_lumicol.fna --db c0_otus_final_sorted_phifil.fa --id 0.97 --self --maxaccepts 16 --wordlength 8 --strand both --log merged_lumicol.log --maxrejects 64 --uc map.uc
 ```
 
-**13. Convert to BIOM from generated mapping file**
+**14. Convert to BIOM from generated mapping file**
 ```
 biom from-uc -i map.uc -o otus.biom
 biom convert -i otus.biom -o otus_biom.csv --to-tsv
@@ -137,37 +141,37 @@ sed 's/;/\t/g' otus_biom.csv > otus_biom.tsv
 biom convert -i otus_biom.tsv -o otus_biom_tsv.biom --table-type="OTU table" --to-hdf5
 biom validate-table -i otus_biom_tsv.biom 
 ```
-**14. Add metadata**
+**15. Add metadata**
 ```
 biom add-metadata -i otus_biom_tsv.biom -o otus_biom_wData.biom --sample-metadata-fp metadata.txt 
 ```
-**15. Adding taxonomy**
+**16. Adding taxonomy**
 ```
 biom add-metadata --sc-separated taxonomy --observation-header OTUID,taxonomy --observation-metadata-fp metadata.txt -i lotus_biom_wData.biom -o otus_biom_wData_wTaxa.biom
 ```
 
-**16. Alignment using SINA and SILVA database**
+**17. Alignment using SINA and SILVA database**
 ```
 conda activate sina
 sina -i /DIRECTORY/merged_lumicol.fna -o /DIRECTORY/merged_lumicol_aligned.fna --meta-fmt csv --db /DIRECTORY/SSURef_NR99_132_SILVA_13_12_17_opt.arb --search --search-db /DIRECTORY/SSURef_NR99_132_SILVA_13_12_17_opt.arb --lca-fields tax_slv
 sed '/^[^>]/ y/uU/tT/' c0_otus_final_aligned.fa > c0_otus_final_sina_aligned.fa
 
 ```
-**17. Alignment using SINA and eHOMD database**
+**18. Alignment using SINA and eHOMD database**
 ```
 vsearch --usearch_global merged_lumicol.fna --db /DIRECTORY/HOMD_16S_rRNA_RefSeq_V15_1.fasta --id 0.97 --self --maxaccepts 16 --wordlength 8 --strand both --log ltx_homd_cluster.log --maxrejects 64 --uc homd_map.uc
 ```
 
-**18. Phylogenetic tree by FastTree using SINA alignment**
+**19. Phylogenetic tree by FastTree using SINA alignment**
 ```
 FastTree -gtr -nt c0_otus_final_sina_aligned.fa > c0_otus_final_tree.tre
 ```
 
-**19.Extracting LUMICOL IDs from mapping data**
+**20.Extracting LUMICOL IDs from mapping data**
 ```
 grep 'LUMICOL' map.uc > lumicol_mapping_only_from_uc.txt 
 ```
-**20. Extract the column with LUMICOL_xxx**  
+**21. Extract the column with LUMICOL_xxx**  
 ```
  awk '{print $9}' lumicol_mapping_only_from_uc.txt > lumicol_numbers.txt
 ```
