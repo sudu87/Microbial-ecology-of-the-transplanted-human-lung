@@ -31,8 +31,7 @@ Bash script
 
 R version 3.6.3
 
-Genocrunch
-
+[Genocrunch](https://genocrunch.epfl.ch/home/doc) v 2 Release 2018/06/08
 **Structure** 
 
 The analysis is divided into 2 parts:
