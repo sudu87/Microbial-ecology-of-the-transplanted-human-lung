@@ -236,6 +236,11 @@ high_read #contains samples with at least 10000 reads
 ltx_rare_rel<-transform_sample_counts(ltx_rare, function(x) x/sum(x))
 ltx_rare_rel
 ```
+### Exporting OTU and Metadata for Genocrunch and PAM analysis
+```{r}
+write_phyloseq(ltx_rare_rel,'OTU')
+write_phyloseq(ltx_rare_rel,'METADATA')
+```
 ```{r}
 tax_summary<-table(tax_table(eric.june2019)[, "Phylum"], exclude = NULL)
 write.csv(tax_summary,"tables/tax_summary_S1.csv")
