@@ -1,6 +1,6 @@
 ---
 title: "Microbial community analysis and associations with clinical metadata"
-output: rmarkdown::github_document
+output: html_document
 ---
 ### Set working directory
 ```{r}
