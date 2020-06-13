@@ -81,13 +81,13 @@ Tasks performed by the script:
 4. Chimera check
 5. OTU picking
 
-**11. Permissions**
-```
-chmod +x vsearch.sh 
-./vsearch.sh 
-```
-#Script to execute vsearch based OTU picking: vsearch.sh 
-Ran on the High Performance Computing Cluster, from Swiss Institute of Bioinformatics for EPFL and UNIL.
+
+
+**11. Execute vsearch based OTU picking: vsearch.sh 
+
+* Create a .sh file and route it to a computing cluster.
+* We ran on the High Performance Computing Cluster, from Swiss Institute of Bioinformatics for EPFL and UNIL. 
+
 ```
 #!/bin/bash
 exec &> vsearch_log.txt
@@ -111,18 +111,25 @@ vsearch --uchime_ref c3_otus_denovo.fa --db /DIRECTORY/gold.fa --chimeras c4_chi
 vsearch --sortbysize c4_otus_final.fa --sizein --minsize 2 --output c5_final_nosingle.fa
 
 sed 's/;.*//g' c5_final_nosingle.fa > c0_otus_final_sorted.fa
-```
+
 #phiX spike-in removal
-```
 usearch -filter_phix c0_otus_final_sorted.fa --output c0_otus_final_sorted_phifil.fa -alnout c0_phix_hits.txt
 ```
-#Merge LuMiCol before last step of mapping all sequences at 97% to clusters made at 98%.
+
+* Can also be run by executing individual codes below on local machine.
+
 ```
-cat merged.fna lumicol.fna > merged_lumicol.fna
-vsearch --usearch_global merged_lumicol.fna --db c0_otus_final_sorted.fa --id 0.97 --self --maxaccepts 16 --wordlength 8 --strand both --log merged_lumicol.log --maxrejects 64 --uc map.uc
+chmod +x vsearch.sh 
+./vsearch.sh 
 ```
 
-#converting to BIOM from generated mapping file 
+**12. Merge LuMiCol before last step of mapping all sequences at 97% to clusters made at 98%.**
+```
+cat merged.fna lumicol.fna > merged_lumicol.fna
+vsearch --usearch_global merged_lumicol.fna --db c0_otus_final_sorted_phifil.fa --id 0.97 --self --maxaccepts 16 --wordlength 8 --strand both --log merged_lumicol.log --maxrejects 64 --uc map.uc
+```
+
+**13. Convert to BIOM from generated mapping file 
 ```
 biom from-uc -i map.uc -o otus.biom
 biom convert -i otus.biom -o otus_biom.csv --to-tsv
@@ -130,37 +137,37 @@ sed 's/;/\t/g' otus_biom.csv > otus_biom.tsv
 biom convert -i otus_biom.tsv -o otus_biom_tsv.biom --table-type="OTU table" --to-hdf5
 biom validate-table -i otus_biom_tsv.biom 
 ```
-#add metadata
+**14. Add metadata**
 ```
 biom add-metadata -i otus_biom_tsv.biom -o otus_biom_wData.biom --sample-metadata-fp metadata.txt 
 ```
-#Adding taxonomy
+**15. Adding taxonomy**
 ```
 biom add-metadata --sc-separated taxonomy --observation-header OTUID,taxonomy --observation-metadata-fp metadata.txt -i lotus_biom_wData.biom -o otus_biom_wData_wTaxa.biom
 ```
 
-#SINA alignment
+**16. Alignment using SINA and SILVA database**
 ```
 conda activate sina
 sina -i /DIRECTORY/merged_lumicol.fna -o /DIRECTORY/merged_lumicol_aligned.fna --meta-fmt csv --db /DIRECTORY/SSURef_NR99_132_SILVA_13_12_17_opt.arb --search --search-db /DIRECTORY/SSURef_NR99_132_SILVA_13_12_17_opt.arb --lca-fields tax_slv
 sed '/^[^>]/ y/uU/tT/' c0_otus_final_aligned.fa > c0_otus_final_sina_aligned.fa
 
 ```
-#Mapping to eHOMD 
+**17. Alignment using SINA and eHOMD database**
 ```
 vsearch --usearch_global merged_lumicol.fna --db /DIRECTORY/HOMD_16S_rRNA_RefSeq_V15_1.fasta --id 0.97 --self --maxaccepts 16 --wordlength 8 --strand both --log ltx_homd_cluster.log --maxrejects 64 --uc homd_map.uc
 ```
 
-#using sina alignment to make tree using FastTree
+**18. Phylogenetic tree by FastTree using SINA alignment**
 ```
 FastTree -gtr -nt c0_otus_final_sina_aligned.fa > c0_otus_final_tree.tre
 ```
 
-#Extracting LUMICOL IDs from mapping data
+**19.Extracting LUMICOL IDs from mapping data**
 ```
 grep 'LUMICOL' map.uc > lumicol_mapping_only_from_uc.txt 
 ```
-#Extract the column with LUMICOL_*** 
+**20. Extract the column with LUMICOL_xxx**  
 ```
  awk '{print $9}' lumicol_mapping_only_from_uc.txt > lumicol_numbers.txt
 ```
