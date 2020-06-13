@@ -83,7 +83,7 @@ Tasks performed by the script:
 
 
 
-**11. Execute vsearch based OTU picking: vsearch.sh 
+**11. Execute vsearch based OTU picking: vsearch.sh**
 
 * Create a .sh file and route it to a computing cluster.
 * We ran on the High Performance Computing Cluster, from Swiss Institute of Bioinformatics for EPFL and UNIL. 
