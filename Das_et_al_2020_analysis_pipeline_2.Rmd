@@ -1,5 +1,5 @@
 ---
-title: "Microbial community analysis and associations with clinical metadata"
+title: "Microbial community analysis of the lung - Part 2"
 output: html_document
 ---
 ### Set working directory
