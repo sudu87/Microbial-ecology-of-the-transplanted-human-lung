@@ -12,11 +12,11 @@ Example output:
 ```
 /Library/Frameworks/Python.framework/Versions/2.7/bin/python
 ```
-**Activate environment**
+**2. Activate environment**
 ```
 conda activate qiime1
 ```
-**Navigate to working directory**
+**3. Navigate to working directory**
 ```
 cd <PATH>
 ```
@@ -30,37 +30,49 @@ cd <PATH>
 join_paired_ends.py -f R1.fastq.gz -r R2.fastq.gz -b Index.fastq.gz -j 10 -o joined_reads/
 ```
 
-#Validate mapping file
+**4. Validate mapping file**
 ```
 validate_mapping_file.py -m map.txt -o validated_map
 ```
-#Demultiplexing and stored in folder split_lib_out.\
- phred quality score: 28 in at least 75% of each sequence.
+**5. Demultiplexing and stored in folder split_lib_out**
+
+phred quality score: 28 in at least 75% of each sequence.
 ```
 split_libraries_fastq.py -i fastqjoin.join.fastq -m ../validated_map/map_corrected.txt -b fastqjoin.join_barcodes.fastq -o ../split_lib_out --barcode_type golay_12 --store_demultiplexed_fastq --phred_offset=33 -q 28 -p 0.75 --max_barcode_errors 2 --rev_comp_mapping_barcodes
 ```
-#Split all sequences according to sample names and store in folder split_seq_out. This is done for selecting and filtering samples individually.
+**6. Splitting samples**
+
+All sequences according to sample names and store in folder split_seq_out. This is done for selecting and filtering samples individually.
 
 ```
 split_sequence_file_on_sample_ids.py -i seqs.fastq -o ../split_seq_out  --file_type fastq
 ```
 
-#Merging and quality control
+**7. Merging and quality control**
 FastQC reports attached separately. Sequences trimmed 40 bp from ends and kept minimum length to 280
+
 ```
 cat *.fastq > merged.fastq
 fastx_trimmer -i merged.fastq -t 40 -m 280 -Q 33 -o merged_trimmed.fastq
 ```
-#Converting fastq to fasta and quality files (this conversion may be also included in the script for vsearch sith fastx toolkit) 
+
+**8. Converting fastq to fasta and quality files**
+
+This conversion may be also included in the script for vsearch sith fastx toolkit.
+
 ```
 convert_fastaqual_fastq.py -c fastq_to_fastaqual -f merged.fastq -o fastq2fasta/ 
 ```
-#gold.fa database file was formatted to be a proper fasta file by using FASTX toolkit :http://hannonlab.cshl.edu/fastx_toolkit
+**9. File conversions
+
+gold.fa database file was formatted to be a proper fasta file by using FASTX toolkit :http://hannonlab.cshl.edu/fastx_toolkit
+
 ```
 fasta_formatter -i gold.fa.txt -o gold.fa
 ```
 
-#Integrating cultured sequences - LUMICOL
+**10. Integrating cultured sequences - LUMICOL**
+
 LuMiCol and 16S seq data are going to be merged but only after dereplication step. refer to vsearch_mod.sh script
 Tasks performed by the script:
 1. Dereplication
