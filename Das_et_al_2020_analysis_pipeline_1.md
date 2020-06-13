@@ -1,4 +1,4 @@
-# Setting up the environment
+# Microbial community analysis of lung - Part 1
 
 **1. Check Python version**
 
@@ -63,7 +63,7 @@ This conversion may be also included in the script for vsearch sith fastx toolki
 ```
 convert_fastaqual_fastq.py -c fastq_to_fastaqual -f merged.fastq -o fastq2fasta/ 
 ```
-**9. File conversions
+**9. File conversions**
 
 gold.fa database file was formatted to be a proper fasta file by using FASTX toolkit :http://hannonlab.cshl.edu/fastx_toolkit
 
