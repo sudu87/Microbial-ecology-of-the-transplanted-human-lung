@@ -81,7 +81,7 @@ Tasks performed by the script:
 4. Chimera check
 5. OTU picking
 
-#Permissions
+**11. Permissions**
 ```
 chmod +x vsearch.sh 
 ./vsearch.sh 
