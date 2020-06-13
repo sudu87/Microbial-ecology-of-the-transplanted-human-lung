@@ -23,10 +23,9 @@ We find that the lung microbiota post-transplant can be categorized into four di
 
 This pipeline has been tested on the following version of the required software.
 
-* macOS 10.15.4 Catalina
-* Ubuntu 20.04
+* macOS 10.15.4 Catalina or Ubuntu 20.04 or MS Windows 10
 * Python 2.7 
-* Bash script
+* Bash script 
 * R version 3.6.3
 * [Genocrunch](https://genocrunch.epfl.ch/home/doc) v 2 Release 2018/06/08
 
@@ -34,7 +33,10 @@ This pipeline has been tested on the following version of the required software.
 
 * Python 2.7 comes pre-installed with macOS and Ubuntu. 
 * For MS Windows, follow the [installation instructions](https://docs.python.org/3/using/windows.html).
-
+* For MS Windows 10 now comes with Bash Shell scripting option. Intiate this by typing:
+```
+#!/bin/bash
+```
 The analysis is divided into 2 parts:
 
 
