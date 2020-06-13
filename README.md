@@ -35,11 +35,12 @@ This pipeline has been tested on the following version of the required software.
 * Python 2.7 comes pre-installed with macOS and Ubuntu. 
 * For MS Windows, follow the [installation instructions](https://docs.python.org/3/using/windows.html).
 * For MS Windows 10 now comes with Bash Shell scripting option. Initiate this by typing the following on the Command prompt window
-* For installation of **vsearch**, please follow the instructions in the github repository https://github.com/torognes/vsearch
-* For installing QIIME 1, please follow the instructions on http://qiime.org/install/install.html
+
 ```
 #!/bin/bash
 ```
+* For installation of **vsearch**, please follow the instructions in the github repository https://github.com/torognes/vsearch
+* For installing QIIME 1, please follow the instructions on http://qiime.org/install/install.html
 * Genocrunch is a web application. To use it, you need to create a free account. Further instructions can be found at https://genocrunch.epfl.ch/home/doc
 
 **3. Demo**
