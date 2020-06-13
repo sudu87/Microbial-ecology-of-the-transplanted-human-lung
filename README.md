@@ -25,12 +25,15 @@ This pipeline has been tested on the following version of the required software.
 
 * macOS 10.15.4 Catalina
 * Ubuntu 20.04
-* Python 2.7
+* Python 2.7 
 * Bash script
 * R version 3.6.3
 * [Genocrunch](https://genocrunch.epfl.ch/home/doc) v 2 Release 2018/06/08
 
-**Structure** 
+**Installation** 
+
+* Python 2.7 comes pre-installed with macOS and Ubuntu. 
+* For MS Windows, follow the [installation instructions](https://docs.python.org/3/using/windows.html).
 
 The analysis is divided into 2 parts:
 
