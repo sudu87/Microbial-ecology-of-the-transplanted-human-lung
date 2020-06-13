@@ -29,7 +29,7 @@ This pipeline has been tested on the following version of the required software.
 * R version 3.6.3
 * [Genocrunch](https://genocrunch.epfl.ch/home/doc) v 2 Release 2018/06/08
 
-**Installation** 
+**2. Installation** 
 
 * Python 2.7 comes pre-installed with macOS and Ubuntu. 
 * For MS Windows, follow the [installation instructions](https://docs.python.org/3/using/windows.html).
@@ -39,8 +39,23 @@ This pipeline has been tested on the following version of the required software.
 ```
 * Genocrunch is a web application. To use it, you need to create a free account. Further instructions can be found at https://genocrunch.epfl.ch/home/doc
 
-The analysis is divided into 2 parts:
+**3.Demo**
 
+All demo and instructions are provided with in line with the code in the individual markdown documents.
+
+
+**Instructions for use**
+
+The analysis is divided into 3 parts:
+
+* Part 1 (Das_et_al_2020_analysis_pipeline_1): Sequencing analysis pipeline using python (QIIME) and bash (vsearch, FastXToolkit, SINA, FastTree). Code from raw data processing, merging cultured sequences (LuMiCol), OTU picking and phylogeny.
+
+* Import BIOM in R. For instructions see the R markdown
+
+* Part 2 (Das_et_al_2020_analysis_pipeline_2): R markdown with BALF community analysis with starting OTUs from pipeline 1 with phyloseq, ampvis2 and vegan. Random Forest algorithms, Markov chain analysis and all statistical analysis and visualization plots.
+
+* Part 3 - nested inside part 2- after applying appropriate filtering, the OTU table with taxonomy and metadata is exported 
+as spreadsheet. This spread was imported to the web application [Genocrunch](https://genocrunch.epfl.ch/home/doc) for performing the pneumotype discovery i.e. K-medoid based machine learning using Bray-Curtis diversity index. This generated Partition-around medoids (PAMs) and this information was added to the metadata file and re-imported to the R code. 
 
 ## Data availibity 
 
