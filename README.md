@@ -5,11 +5,11 @@ We find that the lung microbiota post-transplant can be categorized into four di
 
 ## Code conceptualization and development team 
 
-* Sudip Das<sup>1
-* Germán Bonilla-Rosso<sup>1
-* Céline Pattaroni<sup>2
-* Alexis Rapin<sup>3
-* Philipp Engel<sup>1
+* Sudip Das<sup>†
+* Germán Bonilla-Rosso<sup>†
+* Céline Pattaroni<sup>‡
+* Alexis Rapin<sup>#
+* Philipp Engel<sup>†
 
 1 Department of Fundamental Microbiology, Biophore, University of Lausanne, Switzerland.
 
@@ -29,7 +29,7 @@ This pipeline has been tested on the following version of the required software.
 * R version 3.6.3
 * [Genocrunch](https://genocrunch.epfl.ch/home/doc) v 2 Release 2018/06/08
 * [QIIME](http://qiime.org/install/install.html) v 1.9.1 
-* R packages [phyloseq 1.26.1](https://github.com/joey711/phyloseq) and [ampvis2](https://madsalbertsen.github.io/ampvis2/) are available in GitHub.
+* R packages [phyloseq v. 1.26.1](https://github.com/joey711/phyloseq) and [ampvis2 v. 2.3.2](https://madsalbertsen.github.io/ampvis2/) are available in GitHub.
 
 **2. Installation** 
 
@@ -74,3 +74,5 @@ We have deposited the raw data from all samples used in the study to Short Read 
 Sudip Das, Eric Bernasconi, Angela Koutsokera, Daniel-Adrien Wurlod, Vishwachi Tripathi, Germán Bonilla-Rosso, John-David Aubert, Marie-France Derkenne, Louis Mercier, Céline Pattaroni, Alexis Rapin, Christophe von Garnier, Benjamin J. Marsland, Philipp Engel, Laurent P. Nicod
 
 bioRxiv 2020.05.21.106211; doi: https://doi.org/10.1101/2020.05.21.106211
+
+## Citations 
