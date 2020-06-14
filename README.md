@@ -29,7 +29,7 @@ This pipeline has been tested on the following version of the required software.
 * R version 3.6.3
 * [Genocrunch](https://genocrunch.epfl.ch/home/doc) v 2 Release 2018/06/08
 * [QIIME](http://qiime.org/install/install.html) v 1.9.1 
-* [phyloseq 1.26.1](https://github.com/joey711/phyloseq) and [ampvis2](https://madsalbertsen.github.io/ampvis2/) are available in GitHub.
+* R packages [phyloseq 1.26.1](https://github.com/joey711/phyloseq) and [ampvis2](https://madsalbertsen.github.io/ampvis2/) are available in GitHub.
 
 **2. Installation** 
 
@@ -42,8 +42,9 @@ This pipeline has been tested on the following version of the required software.
 ```
 * For installation of **vsearch**, please follow the instructions in the github repository https://github.com/torognes/vsearch
 * For installing **QIIME 1**, please follow the instructions on http://qiime.org/install/install.html
-* Genocrunch is a web application. To use it, you need to create a free account. Further instructions can be found at https://genocrunch.epfl.ch/home/doc
+* **Genocrunch** is a web application. To use it, you need to create a free account. Further instructions can be found at https://genocrunch.epfl.ch/home/doc
 * **phyloseq** and **ampvis2** can be installed via R following the given instructions.
+
 **3. Demo**
 
 All demo and instructions are provided in line with the code in the individual markdown documents.
