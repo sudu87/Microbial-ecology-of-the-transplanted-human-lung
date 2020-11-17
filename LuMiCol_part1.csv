@@ -1,4 +1,4 @@
-﻿well position(Plate/Well),Bacteria code,Sample number ,Culture condition ,Sequence ID,Best hit name,Source,Taxonomy
+well position(Plate/Well),Bacteria code,Sample number ,Culture condition ,Sequence ID,Best hit name,Source,Taxonomy
 P1A1,408MIMS1,408,MI,89CF09 / 91AE22,Micrococcus luteus strain ,Post transplated human lung Bronchoalveolar Lavage Fluid (BALF),Bacteria; Actinobacteria; Micrococcales; Micrococcaceae;Micrococcus 
 P1A10,393MITS29,393,MI,91AE29,Staphylococcus aureus ,Post transplated human lung Bronchoalveolar Lavage Fluid (BALF),Bacteria; Firmicutes; Bacilli; Bacillales; Staphylococcaceae; Staphylococcus.
 P1A11,393MITS28,393,MI,91AE30,Staphylococcus aureus ,Post transplated human lung Bronchoalveolar Lavage Fluid (BALF),Bacteria; Firmicutes; Bacilli; Bacillales; Staphylococcaceae; Staphylococcus.
