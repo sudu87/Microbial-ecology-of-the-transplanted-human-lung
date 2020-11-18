@@ -1,7 +1,6 @@
----
-title: "Microbial community analysis of the lung - Part 2"
-output: html_document
----
+
+# Microbial community analysis of the lung - Part 2"
+
 ### Set working directory
 ```{r}
 setwd("/Users/sdas/16S_data/all_run_240219/merged_060319")
@@ -123,32 +122,32 @@ ltx_otus = merge_phyloseq(ltx_otus,sample,ltx_tree)
 ltx_otus
 ```
 
-##renaming taxonomy column names
+### renaming taxonomy column names
 ```{r}
 colnames(tax_table(ltx_otus)) <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus","Species")
 rank_names(ltx_otus)
 ```
-##Create table, number of features for each phyla
+### Create table, number of features for each phyla
 ```{r}
 table(tax_table(ltx_otus)[, "Phylum"], exclude = NULL)
 ```
-##Exploring metadata
+### Exploring metadata
 ```{r}
 sample_names(ltx_otus)
 ```
-#Save workspace
+### Save workspace
 ```{r}
 save.image(file = "FILE.RData")
 load(file = "FILE.RData")
 ```
-###Storing Lumicol in another object for further exploration
+### Storing Lumicol in another object for further exploration
 ```{r}
 lumicol<-subset_samples(ltx_otus,Sample_SD=="LUMICOL")
 lumicol
 ```
 
-#Data exploration
-###Quality control of data
+## Data exploration
+### Quality control of data
 ```{r}
 readsumsdf = data.frame(nreads = sort(taxa_sums(ltx_otus), TRUE), sorted = 1:ntaxa(ltx_otus), type = "OTUs")
 readsumsdf = rbind(readsumsdf, data.frame(nreads = sort(sample_sums(ltx_otus),TRUE), sorted = 1:nsamples(ltx_otus), type = "Samples"))
@@ -157,7 +156,7 @@ p = ggplot(readsumsdf, aes(x = sorted, y = nreads)) + geom_point()
 p + ggtitle(title) + scale_y_log10() + facet_wrap(~type, 1, scales = "free")
 ```
 
-###Converting phyloseq to ampvis2
+### Converting phyloseq to ampvis2
 ```{r}
 obj1<-ltx_otus
 otutable <- data.frame(OTU = rownames(phyloseq::otu_table(obj1)@.Data),
@@ -174,41 +173,41 @@ meta2<-read.table("metadata.txt",header = T)
 object1<- amp_load(otutable,meta2,fasta = "c0_otus_final_sorted_phifil_test.fa ")
 ```
 
-###Analysis of negative control
+### Analysis of negative control
 ```{r}
 negatives<- amp_subset_samples(object1, NegCtrl %in% "1")
 negative_otus<-cbind(negatives$abund,negatives$tax)
 write.csv(negative_otus,"negative_control_OTU_table_wTaxa.csv")
 ```
-###boxplots of the most abundant taxa according to read counts.
+### boxplots of the most abundant taxa according to read counts.
 ```{r}
 neg_ctrl<-amp_boxplot(negatives,adjust_zero=T,tax_add="OTU",detailed_output=T,normalise =F,tax_show = 30)
 neg_ctrl
 ```
-###boxplots of the most abundant taxa according to read counts and grouped by samples
+### boxplots of the most abundant taxa according to read counts and grouped by samples
 ```{r}
 neg_sample<-amp_boxplot(negatives,adjust_zero=T,tax_add="OTU",plot_type = "point",detailed_output=TRUE,normalise = F,group_by = "Sample_SD")
 neg_sample$plot
 write.table(neg_sample$data,file = "negative_non_normalized_by_sample.txt")
 ```
-###heatmap of the most abundant taxa according to read counts and grouped by samples
+### heatmap of the most abundant taxa according to read counts and grouped by samples
 ```{r}
 neg_heat<-amp_heatmap(negatives,normalise = F,tax_add="OTU",tax_aggregate = "Genus",tax_show = 40,plot_values =F,color_vector = c("white","red","darkred"),min_abundance = 0.1,measure = "median")
 ```
 
-###Removing negative controls from phyloseq object.
+### Removing negative controls from phyloseq object.
 ```{r}
 ltx_noneg<-subset_samples(ltx_otus,NegCtrl!=1)
 ltx_noneg
 ```
-###Take out samples with NA in 16S copy column.
+### Take out samples with NA in 16S copy column.
 ```{r}
 ltx_otus2<-subset_samples(ltx_noneg,Cop16SPerMLBAL!="NA")
 sample_data(ltx_otus2)$Cop16SPerMLBAL<-as.numeric(as.character(sample_data(ltx_otus2)$Cop16SPerMLBAL))#converting the variable to numeric
 ltx_otus3<-subset_samples(ltx_otus2,Cop16SPerMLBAL>0)
 ltx_otus3
 ```
-###Removal of contaminating OTUs
+### Removal of contaminating OTUs
 ```
 As we saw before, there are some OTUs that come from the negative controls. We will remove them.
 ```
@@ -231,7 +230,7 @@ high_read #contains samples with at least 10000 reads
 #rarefaction this only helps diversity and will not be used for differential abundances
 ```
 
-###Compositional data
+### Compositional data
 ```{r}
 ltx_rare_rel<-transform_sample_counts(ltx_rare, function(x) x/sum(x))
 ltx_rare_rel
@@ -246,31 +245,31 @@ tax_summary<-table(tax_table(eric.june2019)[, "Phylum"], exclude = NULL)
 write.csv(tax_summary,"tables/tax_summary_S1.csv")
 ```
 
-###Compute prevalence of each feature, store as data.frame
+### Compute prevalence of each feature, store as data.frame
 ```{r}
 prevdf = apply(X = otu_table(ltx_rare),
                MARGIN = ifelse(taxa_are_rows(ltx_rare), yes = 1, no = 2),
                FUN = function(x){sum(x > 0)})
 ```
-###Add taxonomy and total read counts to this data.frame
+### Add taxonomy and total read counts to this data.frame
 ```{r}
 prevdf = data.frame(Prevalence = prevdf,TotalAbundance = taxa_sums(ltx_rare),tax_table(ltx_rare))
 plyr::ddply(prevdf, "Phylum", function(df1){cbind(mean(df1$Prevalence),sum(df1$Prevalence))})
 ```
 
-###Subset to the remaining phyla
+### Subset to the remaining phyla
 ```{r}
 prevdf1 = subset(prevdf, Phylum %in% get_taxa_unique(ltx_rare, "Phylum"))
 prev_plot<-ggplot(prevdf1, aes(TotalAbundance, Prevalence / nsamples(ltx_rare_rel),color=Phylum)) +
 geom_hline(yintercept = 0.5, alpha = 0.5, linetype = 2) +geom_point(size = 2, alpha = 0.7) + xlab("Cumulative Abundance") + ylab("Prevalence [Frac. Samples]")  + theme(legend.position="none")+facet_wrap(~Phylum)
 prev_plot
 ```
-###Define prevalence threshold as 50% of total samples
+### Define prevalence threshold as 50% of total samples
 ```{r}
 prevalenceThreshold = 0.5 * nsamples(ltx_rare_rel)
 prevalenceThreshold
 ```
-###Execute prevalence filter, using `prune_taxa()` function.
+### Execute prevalence filter, using `prune_taxa()` function.
 ```{r}
 keepTaxa = rownames(prevdf1)[(prevdf1$Prevalence >= prevalenceThreshold)]
 hi_prev_rel = prune_taxa(keepTaxa, ltx_rare_rel)
@@ -289,7 +288,7 @@ tax_summary<-table(tax_table(hi_prev_rel)[, "Phylum"], exclude = NULL)
 View(tax_summary)
 prev_plot2
 ```
-###Converting ltx_rare_rel object to ampvis object
+### Converting ltx_rare_rel object to ampvis object
 ```{r}
 obj3<-ltx_rare_rel
 otutable_exp <- data.frame(OTU = rownames(phyloseq::otu_table(obj3)@.Data),
@@ -309,7 +308,7 @@ amp_box_median<-amp_boxplot(amp_exp,sort_by = "median",tax_aggregate = "OTU",tax
 amp_box_median
 ```
 
-#richness vs bacterial copy
+### richness vs bacterial copy
 ```{r}
 alpha_summary<-amp_alphadiv(amp_exp)
 alpha_summary$log_copy<-log10(alpha_summary$Cop16SPerMLBAL)
@@ -327,7 +326,7 @@ getmode(alpha_summary$log_copy)
 alpha_summary$pielou<-alpha_summary$Shannon/log(alpha_summary$ObservedOTUs)
 otu_bact_copy
 ```
-###core analysis using eric's data at OTU level
+### core analysis using eric's data at OTU level
 ```{r}
 amp_exp
 core<-amp_core(amp_exp,tax_empty = "OTU",tax_aggregate = "OTU",abund_thrh = 1,detailed_output=T,plotly = T)
@@ -335,7 +334,7 @@ write.csv(eric_core$data,"tables/incidence_abundance.csv")
 core_data<-read.csv("tables/incidence_abundance.csv")
 ```
 
-###Creating a simple incidence plot
+### Creating a simple incidence plot
 ```{r}
 incidence<-read.csv("tables/incidence_abundance.csv")
 incidence$taxa_info<-paste(incidence$Genus,";",incidence$OTU)
@@ -344,7 +343,7 @@ incidence_eric
 freq_plot<-ggplot(incidence,aes(x=reorder(OTU,-Freq_percent),y=Freq_percent))+geom_point(aes(color=factor(col)),size=3)+theme(legend.position =c(0.3,0.5),legend.text = element_text(size = 10,face="italic"),axis.title= element_blank(),axis.text.x = element_blank(),axis.text = element_text(size = 20),panel.grid=element_blank())+guides(fill=guide_legend(ncol = 3,byrow = T))+ylim(0,100)
 freq_plot
 ```
-###Refining the incidence and creating rank abundance plot
+### Refining the incidence and creating rank abundance plot
 ```{r}
 clusterData_eric = filter(incidence,Frequency >=23)
 View(clusterData)
@@ -352,7 +351,7 @@ clusterData$col=ifelse(clusterData$Abundance>1,paste(clusterData$taxa_info),"NA"
 rank_eric_otus<-ggplot(clusterData,aes(x=reorder(OTU,-Abundance),y=Abundance))+geom_point(aes(color=factor(col)),size=3)+theme(legend.position =c(0.1,0.5),axis.title= element_blank(),axis.text.x = element_blank(),axis.text = element_text(size = 20),panel.grid=element_blank(),legend.text = element_text(size = 10,face="italic"),panel.border =element_rect(colour="black"))+geom_hline(yintercept = 1, linetype = 2,color="red")
 rank_eric_otus
 ```
-#normalized phyloseq object
+### normalized phyloseq object
 ```{r}
 ltx_rare_rel
 ltx.rare.rel.abs <- ltx_rare_rel
@@ -362,7 +361,7 @@ otu_table(ltx.rare.rel.abs)[,n] <- otu_table(ltx_rare_rel)[,n]*sample_data(ltx_r
 }
 ltx.rare.rel.abs
 ```
-###Extracting lumicol bacteria data
+### Extracting lumicol bacteria data
 ```{r}
 lumicol_otus<-c("OTU_69",
 "OTU_30",
@@ -416,7 +415,7 @@ lumicol_tree<-phy_tree(lumicol_extraction)
 ape::write.tree(lumicol_tree,file="lumicol_singles.tre")
 ```
 
-#Extracting the most important contributors - 30 OTUs
+### Extracting the most important contributors - 30 OTUs
 
 ```{r}
 imp2<-c("OTU_11",
@@ -456,7 +455,7 @@ impTaxa2
 sum(sample_sums(impTaxa2))/sum(sample_sums(ltx_rare_rel))*100
 
 ```
-###Converting most important OTUs to ampvis object
+### Converting most important OTUs to ampvis object
 ```{r}
 imp_obj<-impTaxa
 otutable_imp <- data.frame(OTU = rownames(phyloseq::otu_table(imp_obj)@.Data),
@@ -469,7 +468,7 @@ amp_imp<-amp_load(otutable_imp,imp_exp)
 imp_heat<-amp_heatmap(amp_imp,tax_aggregate = "OTU",tax_show = 29,color_vector = c("white","red","darkred"),min_abundance = 1.0,group_by = "kmed_2",textmap = F)
 
 ```
-###Extracting LuMiCol OTUs
+### Extracting LuMiCol OTUs
 ```{r}
 lumicol_otus<-read.table("/Users/sdas/16S_data/all_run_240219/merged_060319/tables/final_tables/lumicol_otus_to_extract.txt",stringsAsFactors = FALSE)
 lumicol<-lumicol_otus$V1
@@ -482,8 +481,8 @@ PAM colors
 "#de2d26","#41ab5d","#0c2c84","#fe9929"
 ```
 
-#Subset samples and analysis of according to pams into its phyloseq and ampvis2 objects
-###PAM1 as example, applied to all PAMs
+## Subset samples and analysis of according to pams into its phyloseq and ampvis2 objects
+### PAM1 as example, applied to all PAMs
 ```{r}
 
 pam1<-subset_samples(ltx.rare.rel,kmed_2=="pam1")
@@ -565,7 +564,7 @@ pam1_ab_plot<-ggplot(melted_full_compare,aes(fill=group,x=fct_inorder(variable),
 panel.background = element_blank())+scale_fill_manual(values=c("grey40","#de2d26"))
 pam1_ab_plot
 ```
-#Statistical testing for PAM1 enrichment
+## Statistical testing for PAM1 enrichment
 ```{r}
 artool.model.pam1 <- art(value ~ group*variable, data = melted_full_compare)
 anova(artool.model.pam1)
@@ -576,7 +575,7 @@ write.csv(pairs_otu_pam1,"tables/final_tables/posthoc_pam1_full_otus.csv")
 ```
 
 
-###Bacterial load plotting
+### Bacterial load plotting
 ```{r}
 copy_plot<-ggplot(df,aes(x=pam,y=log10(Cop16SPerMLBAL),fill=kmed_2))+geom_violin(scale = "width")+geom_boxplot(width=0.1,fill="white")+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))+theme(axis.title.x= element_blank(),axis.text.x = element_blank(),axis.text = element_text(size = 20),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
 panel.background = element_blank())+scale_y_continuous(expand = c(0, 0), limits = c(0, 7),breaks = c(0,1,2,3,4,5,6,7),name = "Bacterial cells/ml (Log10)")
@@ -588,7 +587,7 @@ leveneTest(log10(Cop16SPerMLBAL)~kmed_2,data = df)
 TukeyHSD(aov(log10(Cop16SPerMLBAL)~kmed_2,data = df))
 ```
 
-###Renyi and Hill index
+### Renyi and Hill index
 ```{r}
 OTU1 = as(otu_table(ltx.rare.rel), "matrix")
 # transpose if necessary
@@ -644,7 +643,7 @@ renyi_maxp_summary
 
 ```
 
-###Distances for entire dataset
+### Distances for entire dataset
 ```{r}
 bc.dist.bin<-phyloseq::distance(ltx.rare.rel,"bray",binary=T)
 hn.dist<-phyloseq::distance(ltx.rare.rel,"horn")
