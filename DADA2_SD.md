@@ -1,15 +1,11 @@
----
-title: 'Community analysis using DADA2'
-author: Sudip Das
-output: html_document
----
+# Community analysis using DADA2 pipeline - Das et al 
 
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(message=FALSE,echo=FALSE,eval=FALSE)
 ```
 
-# Amplicon sequencing 
-Directory : `/Users/sdas/switchdrive/Institution/Lung_Microbial\ ecology_manuscript/Nat\ Comm/Review_materials`
+## Amplicon sequencing set up 
+Directory : `/Users/sdas/<PATH>`
 - Illumina adapter file
 - Raw data location : `/Users/sdas/16S_data/dada2/`
 contains :
@@ -18,7 +14,7 @@ contains :
 - metadata
 
 
-# 1 - Trimming reads 
+## Trimming reads 
 
 Trimmomatic is used to trim reads see [Trimmomatic](:/8608841e30af4bd4b5279fa25114fb74)
 
@@ -34,34 +30,35 @@ for f in *R1.fastq; do trimmomatic PE  -phred33 ${f} ${f/R1.fastq/R2.fastq} 01_t
 Trimming improve base quality but none of the others parameters - Still over-represented sequences, per sequence GC content, .... 
 
 
-# 2 -  DADA2 pipeline
-### 6.0 First, install required packages
+## DADA2 pipeline
+### First, install required packages
 ```{r}
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#   install.packages("BiocManager")
-# BiocManager::install(version = "3.10")
-# BiocManager::install("dada2", version = "3.10")
-# BiocManager::install("DECIPHER")
-# BiocManager::install("phyloseq")
-# BiocManager::install("biomformat")
-#BiocManager::install("microbiome/microbiome")
-# BiocManager::install("Biostrings")
-# BiocManager::install("Biostrings")
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#    install.packages("BiocManager")
-# BiocManager::install("DESeq2")
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#    install.packages("BiocManager")
-# BiocManager::install("decontam")
+ if (!requireNamespace("BiocManager", quietly = TRUE))
+   install.packages("BiocManager")
+ BiocManager::install(version = "3.10")
+BiocManager::install("dada2", version = "3.10")
+BiocManager::install("DECIPHER")
+BiocManager::install("phyloseq")
+BiocManager::install("biomformat")
+BiocManager::install("microbiome/microbiome")
+BiocManager::install("Biostrings")
+BiocManager::install("Biostrings")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("DESeq2")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+install.packages("BiocManager")
+BiocManager::install("decontam")
 
-#if(!require("devtools"))
-#install.packages("devtools")
-#source the phyloseq_to_ampvis2() function from the gist
-#devtools::source_gist("8d0ca4206a66be7ff6d76fc4ab8e66c6")
+if(!require("devtools"))
+install.packages("devtools")
+source the phyloseq_to_ampvis2() function from the gist
+devtools::source_gist("8d0ca4206a66be7ff6d76fc4ab8e66c6")
 
-#remotes::install_github("MadsAlbertsen/ampvis2")
-
-# Load libraries
+remotes::install_github("MadsAlbertsen/ampvis2")
+```
+### Load libraries
+```{r}
 library(dada2)
 library(ShortRead)
 library(Biostrings)
@@ -80,19 +77,18 @@ library(cowplot)
 library(phyloseq)
 library(devtools)
 library(ampvis2)
-# library(tidyverse)
-# library(readxl)
-
+library(tidyverse)
+library(readxl)
 
 ```
-
+### Save and load environment
 ```{r}
 getwd()
 save.image("SD_DADA2.RData")
 load("SD_DADA2.RData")
 ```
 
-### 6.1 Get files path and sample names
+### Get files path and sample names
 ```{r}
 library(dada2); packageVersion("dada2")
 path<-"/Users/sdas/16S_data/dada2/01_trimmed"
@@ -107,7 +103,7 @@ str(sample.names)
 write.csv(sample.names,"samplenames.csv")
 ```
 
-### 6.2 Quality scores
+### Quality scores
 
 Median quality score is the green line. Quartile quality scores are the orange lines. 
 The red line (bottom) is the proportion of reads that reach the position (length). 
@@ -125,7 +121,7 @@ plotQualityProfile(REVfiles[20:30])
 ```
 
 
-### 6.3 Trim the data
+### Trim the data
 
 Trimming should be adapted to the data-type and quality of the reads.
 `truncLen` must be large enough to maintain an overlap between forward and reverse reads of at least `20 + biological.length.variation` nucleotides.
@@ -161,7 +157,7 @@ derepFWD$ZWER77$map
 ```
 
 
-### 6.4 Learn the error rates
+### Learn the error rates
 Data is used to model the probability of transistions and transversion (errors) in function of the read quality.
 Each run has its specific error rates (cannot combine data from two different runs)
 
@@ -185,11 +181,8 @@ sys_str
 save.image("SD_DADA2.RData")
 
 ```
-G2C and C2G have some points below the red line
 
-
-
-### 6.5 Sample inference
+### Sample inference
 The DADA2 algorithm divides the reads in ASVs
 
 !Remember that there is a DADA2 workflow for big dataset - to process the samples one by one!
@@ -205,7 +198,7 @@ dadaFs[[1]]
 dadaRs[[1]]
 ```
 
-### 6.5 Merging paired reads
+### Merging paired reads
 
 Merging reads to obtain full denoised sequences. Merged sequences are output if the overlap is at least of 12 *identical* nucleotides.
 ! Most of your reads should successfully merge. If that is not the case upstream parameters may need to be revisited: Did you trim away the overlap between your reads? !
@@ -218,9 +211,8 @@ save.image("SD_DADA2.RData")
 # Inspect the merger data.frame from the first sample
 head(mergers[[1]])
 ```
-# 7 - Prepare data analysis
 
-### 7.1 Construct sequence table
+### Construct sequence table
 
 ! some sequences may be shorter or longer than what is expected - here ~250 bp.
 ```{r}
@@ -231,7 +223,7 @@ print(seqtab)
 table(nchar(getSequences(seqtab)))
 ```
 
-### 7.2 Remove sequences with length too distant from amplified region
+### Remove sequences with length too distant from amplified region
 
 selection of sequences with +/- 4bp -> 51 sequences are removed
 ```{r}
@@ -240,10 +232,9 @@ dim(seqtab2)
 
 ```
 
-### 7.3 Remove chimeras
+### Remove chimeras
 Chimeric sequences are identified if they can be exactly reconstructed by combining a left-segment and a right-segment from two more abundant “parent” sequences.
 Most of your reads should remain after chimera removal (it is not uncommon for a majority of sequence variants to be removed though). If most of your reads were removed as chimeric, upstream processing may need to be revisited. In almost all cases this is caused by primer sequences with ambiguous nucleotides that were not removed prior to beginning the DADA2 pipeline.
-chimera sequences ~ 14% 
 
 ```{r}
 seqtab.nochim <- removeBimeraDenovo(seqtab2, method="consensus", multithread=TRUE, verbose=TRUE)
@@ -256,66 +247,20 @@ colnames(sequences) <- 'sequences'
 write.csv(sequences, 'SB_sequences.csv')
 save.image("SD_DADA2.RData")
 ```
-
-# 8 - Track the number of reads after each filtering steps
-Create one file containing read counts from raw data and post-trimmomatic
-```{bash}
-#awk 'BEGIN{FS=","; OFS=","} FNR==NR{a[FNR]=$2;next};{print $0, a[FNR]}' 01_trimmed/readsCounts2.csv  00_RAW_StinglessBee/ReadsCount.csv | grep 'R1' > #ReadsCounts.csv
-```
-
+### Track the number of reads after each filtering steps
 ```{r}
-library(ggplot2)
-library(reshape)
-
-preDADA2 <-read.table('ReadsCounts.csv', sep=',', header = FALSE)
-colnames(preDADA2) <- c('sample', 'raw', 'trimmomatic')
-
 getN <- function(x) sum(getUniques(x))
 reads_counts <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
 
 colnames(reads_counts) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
 rownames(reads_counts) <- sample.names
 head(reads_counts)
-# check dimensions
- dim(reads_counts)
-# # check samples order
-# preDADA2[,1] ; rownames(reads_counts)
-# 
-# # Join the dataframes
-# ReadsTrack<-cbind(sample.names, preDADA2[,2:3], reads_counts[,2:6])
-# # Remove the controls (mock + blanks)
-# ReadsTrack<-ReadsTrack[-c(4, 5, 15 ), ] 
-# rownames(ReadsTrack)
-# # Save Boxplot and read track table
-# pdf("boxplot_full_read_tracking", width = 10, height=7)
-# boxplot(ReadsTrack, ylim=c(0,120000))
-# dev.off()
-# write.csv(ReadsTrack, "Reads_tracking.csv", row.names = FALSE)
-# # save geom_point graph
-# pdf("Points_reads_tracking", width = 10, height=7)
-# Molten <- melt(ReadsTrack, id.vars='sample.names')
-# ggplot(Molten, aes(x = variable, y = value, colour = sample.names)) + geom_point()
-# dev.off()
-
 ```
 
-# 9 - Results
-The filtering steps (trimmings, denoising, removal of artifact and chimeras) removed ~44% of the initial reads. 
-Remaining reads per species is sufficient to continue the analysis
+### Results
+After the filtering steps (trimmings, denoising, removal of artifact and chimeras) the remaining reads per species is sufficient to continue the analysis
 
-## 9.1 Track reads through the pipeline
-```{r}
-# ReadsTracking <- read.csv("Reads_tracking.csv")
-# div <- function(x,y) (x/y)*100
-# lostReads <- (1-(ReadsTracking[,-c(1)]/ReadsTracking$raw))*100
-# averageLost <- mean(lostReads$nonchim)
-# lostperSpecies <- lostReads$nonchim
-# names(lostperSpecies) <- ReadsTracking$sample.names
-# averageLost
-# lostperSpecies
-```
-
-# 10 - Assign taxonomy
+### Assign taxonomy
 Fasta release files from the UNITE ITS database can be used as is. To follow along, download the silva_nr_v132_train_set.fa.gz
 Considerations for your own data: If your reads do not seem to be appropriately assigned, for example lots of your bacterial 16S sequences are being assigned as Eukaryota NA NA NA NA NA, your reads may be in the opposite orientation as the reference database. Tell dada2 to try the reverse-complement orientation with assignTaxonomy(..., tryRC=TRUE) and see if this fixes the assignments
 ```{r}
@@ -331,7 +276,7 @@ write.csv2(file=paste(path_trim, "ASV_sequences.csv", sep="/"),seqtab.nochim)
 save.image("SD_DADA2.RData")
 ```
 
-# 11 - Convert to fasta and send to SILVA
+### Convert to fasta and send to SILVA
 Fasta files have sequence as header (so that header is unique)
 ```{bash eval=FALSE}
 awk -F';'  'NR>1{ print  ">ASV"++i "\n" $1 }' Taxtable_dada2.csv  > ASV_sequences.fasta
@@ -347,29 +292,8 @@ cat ASV_sequences2_aligned.csv | sed 's/,/#/g' | awk -F# '{print $1 ";" $10 }' |
 ```
 
 
-# 12 -Load and filter the data in phyloseq
+## Data analysis in phyloseq
 ```{r}
-library(ggplot2)
-library(vegan) # ecological diversity analysis
-library(dplyr)
-library(scales) # scale functions for vizualizations
-library(grid)
-library(reshape2) # data manipulation package
-library(cowplot)
-library(phyloseq)
-library(devtools)
-library(ampvis2)
-# library(tidyverse)
-# library(readxl)
-#if(!require("devtools"))
-#install.packages("devtools")
-#source the phyloseq_to_ampvis2() function from the gist
-#devtools::source_gist("8d0ca4206a66be7ff6d76fc4ab8e66c6")
-#install.packages("remotes")
-#remotes::install_github("MadsAlbertsen/ampvis2")
-
-
-
 # Set plotting theme
 theme_set(theme_bw())
 
@@ -415,8 +339,7 @@ writeXStringSet(refseq(ps), "/Users/sdas/16S_data/dada2/01_trimmed/03_Taxonomy/p
 writeXStringSet(refseq(ps), "/Users/sdas/16S_data/dada2/01_trimmed/03_Taxonomy/outfile.fasta",append=FALSE, format="fasta")
 ```
 
-# 13- Data exploration
-###Quality control of data
+### Data exploration and quality control
 ```{r}
 readsumsdf = data.frame(nreads = sort(taxa_sums(ps), TRUE), sorted = 1:ntaxa(ps), type = "ASVs")
 readsumsdf = rbind(readsumsdf, data.frame(nreads = sort(sample_sums(ps),TRUE), sorted = 1:nsamples(ps), type = "Samples"))
@@ -425,23 +348,16 @@ p = ggplot(readsumsdf, aes(x = sorted, y = nreads)) + geom_point()
 p + ggtitle(title) + scale_y_log10() + facet_wrap(~type, 1, scales = "free")
 ```
 
-```{r}
-rarecurve(t(otu_table(ps)), step=50, cex=0.5,label = F)
-```
 ### Create table, number of features for each phyla
-
 ```{r}
 table(tax_table(ps)[, "Phylum"], exclude = NULL)
 ```
-
-###Remove junk reads
+### Remove junk reads
 ```{r}
 ps <- subset_taxa(ps, !is.na(Phylum) & !Phylum %in% c("", "uncharacterized"))
 sample_data(ps)
 ```
-
-
-###Subset negative controls to seperate object, convert to amp_vis object
+### Subset negative controls to seperate object, convert to amp_vis object
 
 ```{r}
 ps_neg<-subset_samples(ps,NegCtrl==1)
@@ -463,7 +379,7 @@ ps3<-rarefy_even_depth(ps2,rngseed = 10000, replace = TRUE, trimOTUs = TRUE, ver
 ps3
 
 ```
-#New Data frame as sample data with pam info
+### New Data frame as sample data with pam info
 ```{r}
 samdf2 = read.table(file="metadata_dada2_updated16112020.txt", sep="\t",header = T, fill=TRUE) # fill=TRUE allows to read a table with missing entries
 rownames(samdf2) = samdf2$Sample_SD
@@ -474,7 +390,7 @@ sample_data(ps3)<-samdf2
 
 A useful next step is to explore feature prevalence in the dataset, which we will define here as the number of samples in which a taxon appears at least once.
 
-# Compute prevalence of each feature, store as data.frame and add taxonomy and total read counts to this data.frame
+### Compute prevalence of each feature, store as data.frame and add taxonomy and total read counts to this data.frame
 
 Are there phyla that are comprised of mostly low-prevalence features? Compute the total and average prevalences of the features in each phylum.
 ```{r}
@@ -491,7 +407,7 @@ save.image("SD_DADA2.RData")
 ```
 First, explore the relationship of prevalence and total read count for each feature. Sometimes this reveals outliers that should probably be removed, and also provides insight into the ranges of either feature that might be useful. This aspect depends quite a lot on the experimental design and goals of the downstream inference, so keep these in mind. It may even be the case that different types of downstream inference require different choices here. There is no reason to expect ahead of time that a single filtering workflow is appropriate for all analysis.
 
-###Subset to the remaining phyla
+### Subset to the remaining phyla
 ```{r}
 prevdf1 = subset(prevdf, Phylum %in% get_taxa_unique(ps3, "Phylum"))
 ggplot(prevdf1, aes(TotalAbundance, Prevalence / nsamples(ps3),color=Phylum)) +
@@ -501,17 +417,17 @@ ggplot(prevdf1, aes(TotalAbundance, Prevalence / nsamples(ps3),color=Phylum)) +
   facet_wrap(~Phylum) + theme(legend.position="none")
 
 ```
-###Transforming counts
+### Transforming counts
 ```{r}
 ps4<-transform_sample_counts(ps3, function(x) x/sum(x))
 sample_data(ps4)
 ```
-###Conversion to amp_vis object
+### Conversion to amp_vis object
 
 ```{r}
 amp_ps<-phyloseq_to_ampvis2(ps3)
 ```
-###Output OTU table
+### Output OTU table
 ```{r}
 OTU1 = as(otu_table(ps4), "matrix")
 if(taxa_are_rows(ps4)){OTU1 <- t(OTU1)}
@@ -529,13 +445,13 @@ df.nov20<-read.table(file="metadata_dada2_updated16112020.txt", sep="\t",header 
 rownames(df.nov20) = df.nov20$Sample_SD
 ```
 
-###Bacterial load plotting after ASV based clustering
+### Bacterial load plotting after ASV based clustering
 ```{r}
 df.nov20$clustering_level_2_OTU
 ggplot(df.nov20,aes(x=clustering_level_2_ASV_AdaptedNumber,y=log10(Cop16SPerMLBAL),fill=clustering_level_2_ASV_AdaptedNumber))+geom_violin(scale = "width")+geom_boxplot(width=0.1,fill="white")+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))
 ```
 
-#PAM subsets
+### PAM subsets
 ```{r}
 pam1_asv<-subset_samples(ps3,clustering_level_2_ASV_AdaptedNumber=="pam1")
 pam2_asv<-subset_samples(ps3,clustering_level_2_ASV_AdaptedNumber=="pam2")
@@ -549,5 +465,5 @@ amp_pam4_asv<-phyloseq_to_ampvis2(pam4_asv)
  
 class(amp_pam1_asv)
 amp_boxplot(amp_pam1_asv)
-
+```
 
