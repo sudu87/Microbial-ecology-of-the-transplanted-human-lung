@@ -1,11 +1,9 @@
 # Community analysis using DADA2 - Das et al. 
-
-
 ```
 knitr::opts_chunk$set(message=FALSE,echo=FALSE,eval=FALSE)
 ```
 
-### Amplicon sequencing set up 
+** Amplicon sequencing set up **
 Directory : `/Users/sdas/<PATH>`
 - Illumina adapter file
 - Raw data location : `/Users/sdas/16S_data/dada2/`
