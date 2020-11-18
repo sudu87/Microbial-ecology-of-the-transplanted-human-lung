@@ -1,5 +1,0 @@
-# Community analysis using DADA2 - Das et al. 
-
-```
-knitr::opts_chunk$set(message=FALSE,echo=FALSE,eval=FALSE)
-```
