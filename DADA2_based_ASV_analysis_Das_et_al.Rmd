@@ -5,12 +5,10 @@ knitr::opts_chunk$set(message=FALSE,echo=FALSE,eval=FALSE)
 
 ** Amplicon sequencing set up **
 Directory : `/Users/sdas/<PATH>`
-- Illumina adapter file
-- Raw data location : `/Users/sdas/16S_data/dada2/`
-contains :
-- mock-files
-- fastq.gz
-- metadata
+* Raw data location : `/Users/sdas/16S_data/dada2/`
+* mock-files
+* fastq.gz
+* metadata
 
 
 ### 1 - Trimming reads 
