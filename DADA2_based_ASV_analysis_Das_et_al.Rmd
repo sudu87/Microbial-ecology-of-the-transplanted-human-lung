@@ -1,14 +1,11 @@
----
-title: 'Community analysis using DADA2'
-author: Sudip Das
-output: html_document
----
+# Community analysis using DADA2 - Das et al. 
+
 
 ```
 knitr::opts_chunk$set(message=FALSE,echo=FALSE,eval=FALSE)
 ```
 
-# Amplicon sequencing 
+### Amplicon sequencing set up 
 Directory : `/Users/sdas/<PATH>`
 - Illumina adapter file
 - Raw data location : `/Users/sdas/16S_data/dada2/`
@@ -18,7 +15,7 @@ contains :
 - metadata
 
 
-# 1 - Trimming reads 
+### 1 - Trimming reads 
 
 Trimmomatic is used to trim reads see [Trimmomatic](:/8608841e30af4bd4b5279fa25114fb74)
 
