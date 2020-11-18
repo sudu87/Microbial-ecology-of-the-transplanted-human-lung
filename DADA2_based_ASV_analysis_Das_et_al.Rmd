@@ -1,4 +1,28 @@
-# Community analysis using DADA2 - Das et al. 
+# Microbial community analysis of lung - Part 1
+
+**1. Check Python version**
+
+This pipeline requires python 2.7.
+
+Command to check this:
+```
+which python
+```
+Example output: 
+```
+/Library/Frameworks/Python.framework/Versions/2.7/bin/python
+```
+**2. Activate QIIME environment**
+
+This is needed for only initial steps and later will be deactivated.
+```
+conda activate qiime1
+```
+**3. Navigate to working directory**
+```
+cd <PATH>
+```
+#Community analysis using DADA2 - Das et al. 
 ```
 knitr::opts_chunk$set(message=FALSE,echo=FALSE,eval=FALSE)
 ```
