@@ -564,7 +564,7 @@ pam1_ab_plot<-ggplot(melted_full_compare,aes(fill=group,x=fct_inorder(variable),
 panel.background = element_blank())+scale_fill_manual(values=c("grey40","#de2d26"))
 pam1_ab_plot
 ```
-## Statistical testing for PAM1 enrichment
+### Statistical testing for PAM1 enrichment
 ```{r}
 artool.model.pam1 <- art(value ~ group*variable, data = melted_full_compare)
 anova(artool.model.pam1)
@@ -653,7 +653,7 @@ bc.dist.bin
 
 ```
 
-###Distances of PAM based subsets
+### Distances of PAM based subsets
 ```{r}
 pam1.set<-subset_samples(ltx.rare.rel,kmed_2=="pam1")
 pam2.set<-subset_samples(ltx.rare.rel,kmed_2=="pam2")
@@ -759,7 +759,7 @@ ggarrange(bray.pam.plot,horn.pam.plot,unifrac.pam.plot,wunifrac.pam.plot,
           common.legend = TRUE, legend = "right")
 
 ```
-###PERMANOVAs
+### PERMANOVAs
 ```{r}
 adonis(bc.dist.bin~pam,data = df,permutations = 10000)
 adonis(hn.dist~ pam,data = df,permutations = 10000)
@@ -767,7 +767,7 @@ adonis(uni.dist ~ pam,data = df,permutations = 10000)
 adonis(wuni.dist ~ pam,data = df,permutations = 10000)
 ```
 
-###Paired adonis for entire datasets: 
+### Paired adonis for entire datasets: 
 ```{r}
 require(pairwiseAdonis)
 paired.bc.kmed<-pairwise.adonis(bc.dist.bin,df$pam,p.adjust.m = "BH")
@@ -775,7 +775,7 @@ paired.hn.kmed<-pairwise.adonis(hn.dist,df$pam,p.adjust.m = "BH")
 paired.uni.kmed<-pairwise.adonis(uni.dist,df$pam,p.adjust.m = "BH")
 paired.wuni.kmed<-pairwise.adonis(wuni.dist,df$pam,p.adjust.m = "BH")
 ```
-###Summary of paired adonis
+### Summary of paired adonis
 ```{r}
 paired.bc.kmed$distance<-"bray"
 paired.hn.kmed$distance<-"horn"
@@ -785,7 +785,7 @@ paired.adonis.summary<-rbind(paired.bc.kmed,paired.hn.kmed,paired.uni.kmed,paire
 paired.adonis.summary
 write.csv(paired.adonis.summary,"tables/final_tables/paired_adonis_summary.csv")
 ```
-#Virome of lung transplant
+### Virome of lung transplant
 ```{r}
 #Virome vs Immunosuppresants
 summary(lm(log10(AnelloAllPerMLBAL)~conc,data=df))
@@ -812,7 +812,7 @@ AnelloAllPerMLBAL+TTMVperMLBAL+TTMDVperMLBAL+BALMacroNumber+BALNeutroNumber+BALA
 
 ```
 
-###Gene expression ploting : kmed2 is PAM
+### Gene expression ploting : kmed2 is PAM
 ```{r}
 #COX
 cox_pam<-ggplot(df.eric,aes(kmed_2,log10(COXcrude)))+geom_violin(aes(fill=kmed_2),alpha=0.8)+geom_boxplot(width=0.1,fill="white")+theme(axis.text.x = element_blank(),axis.title.x = element_blank())+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))+scale_y_continuous(limits=c(-9,3),breaks = c(-9,-6,-3,0,3))
@@ -849,7 +849,7 @@ nlrp_pam<-ggplot(df.eric,aes(kmed_2,log10(NLRP3crude)))+geom_violin(aes(fill=kme
 #TLR2
 tlr2_pam<-ggplot(df.nona,aes(kmed,TLR2))+geom_violin(aes(fill=kmed),alpha=0.8)+geom_boxplot(width=0.1,fill="white")+theme(axis.text.x = element_blank(),axis.title.x = element_blank())+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))+scale_y_continuous(limits=c(-9,3),breaks = c(-9,-6,-3,0,3))
 ```
-###Immunocompetence and physiology
+### Immunocompetence and physiology
 ```{r}
 bal_cells_pam<-ggplot(df,aes(PamMicrobLevel2,log10(TotalBALCellsPerML)))+geom_violin(aes(fill=PamMicrobLevel2),alpha=0.8)+geom_boxplot(width=0.1,fill="white")+theme(axis.text = element_text(size = 15),axis.text.x = element_blank(),axis.title.x = element_blank())+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))+stat_n_text(y.pos=3,angle=90)+scale_y_continuous(limits = c(0,7),breaks = c(1,2,3,4,5,6,7))
 bal_cells_pam
@@ -886,7 +886,7 @@ summary(mymodel)
 
 ```
 
-###Immunosuppresants
+### Immunosuppresants
 ```{r}
 pred_pam<-ggplot(df.july2019,aes(kmed_2,PrednisoneDosis))+geom_violin(aes(fill=kmed_2),alpha=0.8)+geom_boxplot(width=0.15,fill="white")+theme(axis.text = element_text(size = 15),axis.text.x = element_blank(),axis.title.x = element_blank())+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))+scale_y_continuous(limits = c(0,80),breaks = c(0,20,40,60,80))
 tacro_pam<-ggplot(df.july2019,aes(kmed_2,TacrolimusConc))+geom_violin(aes(fill=kmed_2),alpha=0.8)+geom_boxplot(width=0.15,fill="white")+theme(axis.text = element_text(size = 15),axis.text.x = element_blank(),axis.title.x = element_blank())+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))+scale_y_continuous(limits = c(0,40),breaks = c(0,10,20,30,40))
@@ -894,7 +894,7 @@ tacro_pam<-ggplot(df.july2019,aes(kmed_2,TacrolimusConc))+geom_violin(aes(fill=k
 tacro_pam<-ggplot(df.july2019,aes(kmed_2,TacrolimusConc))+geom_violin(aes(fill=kmed_2),alpha=0.8)+geom_boxplot(width=0.15,fill="white")+theme(axis.text = element_text(size = 15),axis.text.x = element_blank(),axis.title.x = element_blank())+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))+scale_y_continuous(limits = c(0,40),breaks = c(0,10,20,30,40))
 
 ```
-###Current ATBs
+### Current ATBs
 ```{r}
 fisher.test(df.sept2019$CurrentABXnumber,df.sept2019$PamMicrobLevel2,simulate.p.value=TRUE,B=1e7)
 fisher.test(df.sept2019$ClinicalInfection,df.sept2019$PamMicrobLevel2,simulate.p.value=TRUE,B=1e7)
@@ -902,7 +902,7 @@ atb_data$CurrentABXnumber<-as.factor(atb_data$CurrentABXnumber)
 summary(glm(CurrentABXnumber~PamMicrobLevel2,data=df.sept2019,family = "poisson"))
 ```
 
-###Longitudinal analysis
+### Longitudinal analysis
 ```{r}
 virome_data<-data.frame(df.july2019$AnelloAllPerMLBAL,df.july2019$TTV1to5perMLBAL,df.july2019$TTMVperMLBAL,df.july2019$TTMDVperMLBAL,as.factor(df.july2019$TimeWindows5))
 head(virome_data)
@@ -930,7 +930,7 @@ betavir<-ggplot(df.july2019,aes(x=TimeWindows5,y=log10(TTMVperMLBAL)))+geom_viol
 gammavir<-ggplot(df.july2019,aes(x=TimeWindows5,y=log10(TTMDVperMLBAL)))+geom_violin(fill="grey")+geom_boxplot(width=0.15,fill="white")+theme(axis.text = element_text(size = 15),axis.title.x = element_blank())+scale_y_continuous(limits = c(0,10),breaks = c(0,2,4,6,8,10))+stat_n_text(y.pos=1,size=4,angle = 90)
 
 ```
-###Markov chain analysis
+### Markov chain analysis
 ```{r}
 statenames= c("pam1", "pam2", "pam3","pam4")
 pam_trans<-new("markovchain",state=statenames,
@@ -1022,7 +1022,7 @@ round(mcFit$estimate@transitionMatrix,2)
 stochastic_matrix_to_plot <- round(as(pam_trans, "matrix"),2)
 plotmat(stochastic_matrix_to_plot,relsize = 0.7)
 ```
-#Virome plots
+### Virome plots
 ```{r}
 annello_pam<-ggplot(df.july2019$,aes(,log10(AnelloAllPerMLBAL)))+geom_violin(aes(fill=kmed_2),alpha=0.8)+geom_boxplot(width=0.15,fill="white")+theme(axis.text = element_text(size = 15),axis.text.x = element_blank(),axis.title.x = element_blank())+scale_fill_manual(values=c("#de2d26","#41ab5d","#0c2c84","#fe9929"))+stat_n_text(y.pos=1,angle=90)+scale_y_continuous(limits = c(0,8),breaks = c(0,2,4,6,8))
 
@@ -1073,8 +1073,8 @@ total_virus_plot<-ggplot(df.may2019,aes(x=reorder(Sample_SD, -AnelloAllPerMLBAL)
 
 ```
 
-#Random Forest application 
-###Setting up data
+## Random Forest application 
+### Setting up data
 ```{r}
 predictors <- read.table("tables/expression_meta_median_trans.csv", sep=",",header=T, row.names=1)  
 metadata <- read.table("tables/metadata_RF", sep="\t", header=T, row.names=1, stringsAsFactors=TRUE, comment.char="")
@@ -1095,8 +1095,8 @@ In below result we use repeatedcv method to divide our dataset into 10 folds cro
 tutorial:https://rstudio-pubs-static.s3.amazonaws.com/389752_a0e0b14d14ea40ba8a7729fbd59cd5b5.html
 
 ```
-##Optimizing mtry: Number of variable is randomly collected to be sampled at each split time.
-###Random search
+## Optimizing mtry: Number of variable is randomly collected to be sampled at each split time.
+### Random search
 ```{r}
 mtry <- sqrt(ncol(exp_virus_data))
 #ntree: Number of trees to grow.
@@ -1116,7 +1116,7 @@ rf_random <- train(virus~ .,
                    trControl = control)
 rf_random
 ```
-###Grid search
+### Grid search
 ```
 #We also can define a grid of algorithm to tunning model. Each axis of grid is an algorithm parameter and point in grid are specific combinations of parameter. In this example we only tunning on one parameter, the grid search only have one dimension as vector.
 ```
@@ -1136,7 +1136,7 @@ rf_gridsearch <- train(pams_prev~ .,
                        tuneGrid = tunegrid)
 plot(rf_gridsearch)
 ```
-###Manual tuning
+### Manual tuning
 ```{r}
 # Manual Search
 control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
@@ -1153,13 +1153,13 @@ results <- resamples(modellist)
 summary(results)
 dotplot(results)
 ```
-###Extend caret
+### Extend caret
 ```
 In this method we create a new algorithm for caret to support. It is the same with random forest we implemented but we make it more flexiable tunning with multiple parameters. In this cases we will tunning for both: mtry and ntree parameters.
 
 We can create an custom list in our model to set up the rule of tunning such as defining the parameters, type, library, predict and prop,…. caret package can search this list parameter to adjust the process.
 ```
-###Custom RF function
+### Custom RF function
 ```{r}
 customRF <- list(type = "Classification",
                  library = "randomForest",
@@ -1212,7 +1212,7 @@ custom2 <- train(copy~., data = exp_copy_data,
 custom2
 ```
 
-###Running the actual model for gene exp vs pams
+### Running the actual model for gene exp vs pams
 ```{r}
 set.seed(123)
 rf_lung<-randomForest(response~., data = rf.data)
@@ -1223,7 +1223,7 @@ plot(boruta_lung,xlab="",las=2,colCode = c("#009E73", "yellow", "#D55E00", "#999
 levels(rf.data$response)
 str(rf.data)
 ```
-###Making detailed comparison with selected features
+### Making detailed comparison with selected features
 ```{r}
 #Set 1
 
@@ -1274,14 +1274,14 @@ ggarrange(ifn_pam,mrc_pam,il10_pam,il1rn_pam,ly96_pam,ido_pam,
           ncol = 3, nrow = 2,
           common.legend = TRUE, legend = "right")
 ```
-###Statistical testing of the selected features
+### Statistical testing of the selected features
 ```{r}
 leveneTest(IDO~response,data = rf.data,center=mean)
 TukeyHSD(aov(IDO~response,data = rf.data))
 posthoc.kruskal.dunn.test(LY96~response,data = rf.data,p.adjust.method = "BH")
 ```
 
-###Running regression model with copy number vs gene exp 
+### Running regression model with copy number vs gene exp 
 ```{r}
 copy<-log10(metadata$Cop16SPerMLBAL)
 exp_copy_data<-data.frame(copy, predictors)
@@ -1295,7 +1295,7 @@ plot(boruta_lung_copy_geneexp,las=2,xlab="")
 boruta_lung_copy_geneexp$finalDecision
 
 ```
-###Statistical tests for gene exp and copy number
+### Statistical tests for gene exp and copy number
 ```{r}
 # Stepwise Regression
 library(MASS)
@@ -1334,7 +1334,7 @@ posthoc.kruskal.dunn.test(IFNLR1~kmed_2,data =df.july2019,p.adjust.method = "BH"
 ```
 
 
-###Running regression model with virus number vs gene exp
+### Running regression model with virus number vs gene exp
 ```{r}
 virus<-log10(metadata$AnelloAllPerMLBAL)
 exp_virus_data<-data.frame(virus, predictors)
@@ -1351,7 +1351,7 @@ par(mar=c(7, 5, 3, 1))
 plot(boruta_lung_virus_geneexp,las=2,xlab="",colCode = c("#009E73", "yellow", "#D55E00", "#999999"))
 ```
 
-###Statistical tests for gene exp and anellovirus copies 
+### Statistical tests for gene exp and anellovirus copies 
 ```{r}
 # Stepwise Regression
 library(MASS)
@@ -1391,7 +1391,7 @@ summary(aov(IFITM2~kmed_2,data = df.july2019))
 
 
 
-###Using BORUTA package
+### Using BORUTA package
 ```{r}
 boruta_lung_copy<-Boruta(response~.,data = rf.data,mcAdj = TRUE,
 pValue=0.01)
