@@ -4,12 +4,12 @@ author: Sudip Das
 output: html_document
 ---
 
-```{r, echo=FALSE}
+```
 knitr::opts_chunk$set(message=FALSE,echo=FALSE,eval=FALSE)
 ```
 
 # Amplicon sequencing 
-Directory : `/Users/sdas/switchdrive/Institution/Lung_Microbial\ ecology_manuscript/Nat\ Comm/Review_materials`
+Directory : `/Users/sdas/<PATH>`
 - Illumina adapter file
 - Raw data location : `/Users/sdas/16S_data/dada2/`
 contains :
@@ -22,7 +22,7 @@ contains :
 
 Trimmomatic is used to trim reads see [Trimmomatic](:/8608841e30af4bd4b5279fa25114fb74)
 
-```{bash}
+```
 mkdir 01_trimmed_R1
 mkdir 01_trimmed_R2
 mkdir unpaired
