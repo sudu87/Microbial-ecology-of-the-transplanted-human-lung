@@ -227,9 +227,14 @@ We will remove all ambigous phyla, sample read amounts less than 10,000,samples
 ```{r}
 high_read<-prune_samples(sample_sums(ltx_otus5)>=10000,ltx_otus5)#object with high read samples, this will be used to filter our low 16s copies
 high_read #contains samples with at least 10000 reads
-#rarefaction this only helps diversity and will not be used for differential abundances
+
 ```
 
+### Rarefaction of data to minimum read counts 
+This only helps diversity and will not be used for differential abundances
+```{r}
+ltx_rare<-rarefy_even_depth(high_read, sample.size = min(sample_sums(high_read)),rngseed = 10000, replace = TRUE, trimOTUs = TRUE, verbose = TRUE)
+```
 ### Compositional data
 ```{r}
 ltx_rare_rel<-transform_sample_counts(ltx_rare, function(x) x/sum(x))
