@@ -1109,7 +1109,7 @@ tutorial:https://rstudio-pubs-static.s3.amazonaws.com/389752_a0e0b14d14ea40ba8a7
 
 ### 57. Prediction of pneumotypes using host gene expression using classification model
 
-**Optimization of splits per try (mtry):
+**Optimization of splits per try (mtry)**
 
 The first step was to make a grid search for optimizing mtry i.e. number of variable is randomly collected to be sampled at each split time. For this we created a control function for training with 10 folds and keep 3 folds for training. Search method used was grid. 
 
@@ -1129,11 +1129,11 @@ rf_gridsearch <- train(response~ .,
 plot(rf_gridsearch)
 
 ```
-**Results:
+**Results**
 
 From here, we could see that mtry= 5 gave the best accuracy results. 
 
-**Optimization of number of decision trees (ntrees)
+**Optimization of number of decision trees (ntrees)**
 
 The next step was to manually tune for optimize the number of decision trees (ntrees). Further, using the mtry = 5, we optimized the number of decision trees (ntrees) by appyling a loop to vary different number of decision trees (ntrees) needed for good prediction. 
 
@@ -1152,7 +1152,7 @@ results <- resamples(modellist)
 dotplot(results) 
 
 ```
-**Results:
+**Results**
 
 Here we used mtry= 5 and varied the ntree= 500 to 5000 and saw little difference in Accuracy or sensivitiy (Kappa) amongst all. Hence, we decided to keep the miniumum number of trees i.e 500, which is also the default in the "randomForest" function. 
 
@@ -1162,7 +1162,7 @@ For regression models, a random search was performed for optimizing mtry i.e. nu
 
 Starting value of mtry used was taken as the square root of number of columns present in the dataset. With each step an increment of 3 decision trees (ntree) were used. 
 
-**Optimization of splits per try (mtry):
+**Optimization of splits per try (mtry)**
 ```{r}
 mtry <- sqrt(ncol(rf.data))
 
@@ -1184,13 +1184,13 @@ rf_random <- train(response~ .,
 plot(rf_random)
 
 ```
-**Results: 
+**Results**
 
 From these steps, we could observe the mtry value that provided with the lowest Root Mean Square Error (RMSE) values indicating better accuracy. In case of bacterial numbers, mtry = 21 was the best value and it was also used by the random forest algorithm as default in this case when used without setting mtry parameter. Although the differences were not large after 10 considering the order of magnitude of 0.01. Hence, we chose mtry = 21 to use for this model. 
 
 Unlike bacterial numbers, for viral numbers we couldn't deduce any best mtry value as the differences were minute and were of the order of magnitude 0.005. We chose mtry= 10, since it was also used by the random forest algorithm as default. 
 
-**Optimization of number of decision trees (ntrees)
+**Optimization of number of decision trees (ntrees)**
 
 Similar to the classification model in section A, the next step was to manually tune for optimize the number of decision trees (ntrees). We optimized the number of decision trees (ntrees) by appyling a loop to vary different number of decision trees (ntrees) needed for good prediction. However, the parameters that provide us with the accuracy were different, as discussed below.
 
@@ -1209,7 +1209,7 @@ results <- resamples(modellist)
 dotplot(results) 
 
 ```
-**Results
+**Results**
 
 Further using the mtry = 21 for bacterial numbers, we optimized the number of decision trees (ntrees) needed for good prediction. This generated values for Mean Absolute Error (MAE), RMSE and regression value i.e. R2 for all ntrees used. We observed little difference in RMSE and R2 amongst all. Hence, we decided to use the minimum number of trees i.e 1000.
 
