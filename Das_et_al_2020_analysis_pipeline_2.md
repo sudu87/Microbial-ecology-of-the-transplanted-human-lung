@@ -1093,23 +1093,80 @@ response<-metadata$pam
 rf.data <- data.frame(, predictors)
 
 ```
-```
-Tunning algorithm is important in bulding modeling. In random forest model, you can not pre-understand your result because your model are randomly processing. Tunning algorithm will help you control training proccess and gain better result. In this study, we will focus on two main tunning parameters in random forest model is mtry and ntree. Beside, there are many other method but these two parameters perhaps most likely have biggest affect to model accuracy.
+
+
+
+
+## Optimization of random forest parameters 
+
+To optimize the randomly selected predictors at every step i.e. mtry parameter of random forest. This was done with the help of the "carat" package in R. The algorithms were first trained with the random control dataset (created by the algorithm itself). The model is trained with the actual data (pneumotype and gene expression). 
 
 mtry: Number of variable is randomly collected to be sampled at each split time.
 
 ntree: Number of branches will grow after each time split.
 
-In below result we use repeatedcv method to divide our dataset into 10 folds cross-validation and repeat only 3 repeat times in order to slows down our process. I will hold back validation set for back testing.
-
 tutorial:https://rstudio-pubs-static.s3.amazonaws.com/389752_a0e0b14d14ea40ba8a7729fbd59cd5b5.html
 
-```
-## Optimizing mtry: Number of variable is randomly collected to be sampled at each split time.
-### 57. Random search
+### 57. Prediction of pneumotypes using host gene expression using classification model
+
+**Optimization of splits per try (mtry):
+
+The first step was to make a grid search for optimizing mtry i.e. number of variable is randomly collected to be sampled at each split time. For this we created a control function for training with 10 folds and keep 3 folds for training. Search method used was grid. 
+
 ```{r}
-mtry <- sqrt(ncol(exp_virus_data))
-#ntree: Number of trees to grow.
+control <- trainControl(method='repeatedcv', 
+                        number=10, 
+                        repeats=3, 
+                        search='grid')
+
+tunegrid <- expand.grid(.mtry = (5:20)) 
+
+rf_gridsearch <- train(response~ ., 
+                       data = rf.data,
+                       method = 'rf',
+                       metric = 'Accuracy',
+                       tuneGrid = tunegrid)
+plot(rf_gridsearch)
+
+```
+**Results:
+
+From here, we could see that mtry= 5 gave the best accuracy results. 
+
+**Optimization of number of decision trees (ntrees)
+
+The next step was to manually tune for optimize the number of decision trees (ntrees). Further, using the mtry = 5, we optimized the number of decision trees (ntrees) by appyling a loop to vary different number of decision trees (ntrees) needed for good prediction. 
+
+```{r}
+control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
+tunegrid <- expand.grid(.mtry=5)
+modellist <- list()
+for (ntree in c(500,1000,2000, 3000, 4000, 5000)) {
+	set.seed(123) 
+	fit <- train(response~., data= rf.data, method="rf", tuneGrid=tunegrid, trControl=control, ntree=ntree)
+	key <- toString(ntree)
+	modellist[[key]] <- fit
+}
+
+results <- resamples(modellist)
+dotplot(results) 
+
+```
+**Results:
+
+Here we used mtry= 5 and varied the ntree= 500 to 5000 and saw little difference in Accuracy or sensivitiy (Kappa) amongst all. Hence, we decided to keep the miniumum number of trees i.e 500, which is also the default in the "randomForest" function. 
+
+### 58. Prediction of bacterial and viral numbers by host gene expression by using regression model. 
+
+For regression models, a random search was performed for optimizing mtry i.e. number of variable is randomly collected to be sampled at each split time. Unlike the classification model (section 57), grid search cannot be applied here. First the model was trained using control data created by the algorithm itself and then the actual data (bacteria/virus counts and gene expression) with parameter "tuneLength" (here given as 30, which randomy generates given number of mtry values) was used.
+
+Starting value of mtry used was taken as the square root of number of columns present in the dataset. With each step an increment of 3 decision trees (ntree) were used. 
+
+**Optimization of splits per try (mtry):
+```{r}
+mtry <- sqrt(ncol(rf.data))
+
+
 ntree <- 3
 
 control <- trainControl(method='repeatedcv', 
@@ -1117,112 +1174,49 @@ control <- trainControl(method='repeatedcv',
                         repeats=3,
                         search = 'random',allowParallel = T)
 
-#Random generate 15 mtry values with tuneLength = 15
+
 set.seed(1)
-rf_random <- train(virus~ .,
-                   data =  exp_virus_data,
+rf_random <- train(response~ .,
+                   data =  rf.data,
                    method = 'rf',
-                   tuneLength  = 15, 
+                   tuneLength  = 30, 
                    trControl = control)
-rf_random
-```
-### 58. Grid search
-```
-#We also can define a grid of algorithm to tunning model. Each axis of grid is an algorithm parameter and point in grid are specific combinations of parameter. In this example we only tunning on one parameter, the grid search only have one dimension as vector.
-```
-```{r}
-#Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
-control <- trainControl(method='repeatedcv', 
-                        number=10, 
-                        repeats=3, 
-                        search='grid')
+plot(rf_random)
 
-tunegrid <- expand.grid(.mtry = (2:20)) 
-
-rf_gridsearch <- train(pams_prev~ ., 
-                       data = rf_lung_prev_data,
-                       method = 'rf',
-                       metric = 'Accuracy',
-                       tuneGrid = tunegrid)
-plot(rf_gridsearch)
 ```
-### 59. Manual tuning
+**Results: 
+
+From these steps, we could observe the mtry value that provided with the lowest Root Mean Square Error (RMSE) values indicating better accuracy. In case of bacterial numbers, mtry = 21 was the best value and it was also used by the random forest algorithm as default in this case when used without setting mtry parameter. Although the differences were not large after 10 considering the order of magnitude of 0.01. Hence, we chose mtry = 21 to use for this model. 
+
+Unlike bacterial numbers, for viral numbers we couldn't deduce any best mtry value as the differences were minute and were of the order of magnitude 0.005. We chose mtry= 10, since it was also used by the random forest algorithm as default. 
+
+**Optimization of number of decision trees (ntrees)
+
+Similar to the classification model in section A, the next step was to manually tune for optimize the number of decision trees (ntrees). We optimized the number of decision trees (ntrees) by appyling a loop to vary different number of decision trees (ntrees) needed for good prediction. However, the parameters that provide us with the accuracy were different, as discussed below.
+
 ```{r}
-# Manual Search
 control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
-tunegrid <- expand.grid(.mtry=29)
+tunegrid <- expand.grid(.mtry=5)
 modellist <- list()
-for (ntree in c(1000,2000, 3000, 4000, 5000)) {
-	set.seed(123)
-	fit <- train(virus~., data=exp_virus_data, method="rf", tuneGrid=tunegrid, trControl=control, ntree=ntree)
+for (ntree in c(500,1000,2000, 3000, 4000, 5000)) {
+	set.seed(123) 
+	fit <- train(response~., data= rf.data, method="rf", tuneGrid=tunegrid, trControl=control, ntree=ntree)
 	key <- toString(ntree)
 	modellist[[key]] <- fit
 }
-# compare results
+
 results <- resamples(modellist)
-summary(results)
-dotplot(results)
+dotplot(results) 
+
 ```
-### 60. Extend caret
-```
-In this method we create a new algorithm for caret to support. It is the same with random forest we implemented but we make it more flexiable tunning with multiple parameters. In this cases we will tunning for both: mtry and ntree parameters.
+**Results
 
-We can create an custom list in our model to set up the rule of tunning such as defining the parameters, type, library, predict and prop,…. caret package can search this list parameter to adjust the process.
-```
-### 61. Custom RF function
-```{r}
-customRF <- list(type = "Classification",
-                 library = "randomForest",
-                 loop = NULL)
+Further using the mtry = 21 for bacterial numbers, we optimized the number of decision trees (ntrees) needed for good prediction. This generated values for Mean Absolute Error (MAE), RMSE and regression value i.e. R2 for all ntrees used. We observed little difference in RMSE and R2 amongst all. Hence, we decided to use the minimum number of trees i.e 1000.
 
-customRF$parameters <- data.frame(parameter = c("mtry", "ntree"),
-                                  class = rep("numeric", 2),
-                                  label = c("mtry", "ntree"))
+Using the mtry = 10 for viral numbers, we optimized the number of decision trees (ntrees) needed for good prediction similar to bacterial numbers. Here as well, we observed little difference in RMSE and R2 amongst all. Hence, we decided to use the minimum number of trees i.e 500.
 
-customRF$grid <- function(x, y, len = NULL, search = "grid") {}
 
-customRF$fit <- function(x, y, wts, param, lev, last, weights, classProbs) {
-  randomForest(x, y,
-               mtry = param$mtry,
-               ntree=param$ntree)
-}
-
-#Predict label
-customRF$predict <- function(modelFit, newdata, preProc = NULL, submodels = NULL)
-   predict(modelFit, newdata)
-
-#Predict prob
-customRF$prob <- function(modelFit, newdata, preProc = NULL, submodels = NULL)
-   predict(modelFit, newdata, type = "prob")
-
-customRF$sort <- function(x) x[order(x[,1]),]
-customRF$levels <- function(x) x$classes
-```
-```
-Now, let make our model tunning by calling caret traing model with this customRF list. Model will tune with different mtry and ntree.
-```
-
-```{r}
-control <- trainControl(method="repeatedcv", 
-                        number=10, 
-                        repeats=3,
-                        allowParallel = TRUE)
-
-tunegrid <- expand.grid(.mtry=21,.ntree=c(1000,2000,3000,4000,5000,6000,7000,8000,9000,10000))
-
-set.seed(123)
-
-custom2 <- train(copy~., data = exp_copy_data, 
-                method=customRF, 
-                tuneGrid=tunegrid, 
-                trControl=control)
-
-#write.csv(as.data.frame(custom$results),file = "tables/randomforest/rfmodel_training_results.csv",sep = ",")
-#Results show the combination of mtry = 4 and ntree= 2000 gives us the best accuracy (79%) and sensitivity (65%)
-custom2
-```
-
-### 62. Running the actual model for gene exp vs pams
+### 59. Running the actual model for gene exp vs pams
 ```{r}
 set.seed(123)
 rf_lung<-randomForest(response~., data = rf.data)
@@ -1233,7 +1227,7 @@ plot(boruta_lung,xlab="",las=2,colCode = c("#009E73", "yellow", "#D55E00", "#999
 levels(rf.data$response)
 str(rf.data)
 ```
-### 63. Making detailed comparison with selected features
+### 60. Making detailed comparison with selected features
 ```{r}
 #Set 1
 
@@ -1284,14 +1278,14 @@ ggarrange(ifn_pam,mrc_pam,il10_pam,il1rn_pam,ly96_pam,ido_pam,
           ncol = 3, nrow = 2,
           common.legend = TRUE, legend = "right")
 ```
-### 64. Statistical testing of the selected features
+### 61. Statistical testing of the selected features
 ```{r}
 leveneTest(IDO~response,data = rf.data,center=mean)
 TukeyHSD(aov(IDO~response,data = rf.data))
 posthoc.kruskal.dunn.test(LY96~response,data = rf.data,p.adjust.method = "BH")
 ```
 
-### 65. Running regression model with copy number vs gene exp 
+### 62. Running regression model with copy number vs gene exp 
 ```{r}
 copy<-log10(metadata$Cop16SPerMLBAL)
 exp_copy_data<-data.frame(copy, predictors)
@@ -1305,7 +1299,7 @@ plot(boruta_lung_copy_geneexp,las=2,xlab="")
 boruta_lung_copy_geneexp$finalDecision
 
 ```
-### 66. Statistical tests for gene exp and copy number
+### 63. Statistical tests for gene exp and copy number
 ```{r}
 # Stepwise Regression
 library(MASS)
@@ -1344,7 +1338,7 @@ posthoc.kruskal.dunn.test(IFNLR1~kmed_2,data =df.july2019,p.adjust.method = "BH"
 ```
 
 
-### 67. Running regression model with virus number vs gene exp
+### 64. Running regression model with virus number vs gene exp
 ```{r}
 virus<-log10(metadata$AnelloAllPerMLBAL)
 exp_virus_data<-data.frame(virus, predictors)
@@ -1361,7 +1355,7 @@ par(mar=c(7, 5, 3, 1))
 plot(boruta_lung_virus_geneexp,las=2,xlab="",colCode = c("#009E73", "yellow", "#D55E00", "#999999"))
 ```
 
-### 68. Statistical tests for gene exp and anellovirus copies 
+### 65. Statistical tests for gene exp and anellovirus copies 
 ```{r}
 # Stepwise Regression
 library(MASS)
@@ -1401,7 +1395,7 @@ summary(aov(IFITM2~kmed_2,data = df.july2019))
 
 
 
-### 69. Using BORUTA package
+### 66. Using BORUTA package
 ```{r}
 boruta_lung_copy<-Boruta(response~.,data = rf.data,mcAdj = TRUE,
 pValue=0.01)
