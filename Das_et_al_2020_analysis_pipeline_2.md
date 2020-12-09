@@ -1095,8 +1095,6 @@ rf.data <- data.frame(, predictors)
 ```
 
 
-
-
 ## Optimization of random forest parameters 
 
 To optimize the randomly selected predictors at every step i.e. mtry parameter of random forest. This was done with the help of the "carat" package in R. The algorithms were first trained with the random control dataset (created by the algorithm itself). The model is trained with the actual data (pneumotype and gene expression). 
@@ -1154,7 +1152,7 @@ dotplot(results)
 ```
 **Results**
 
-Here we used mtry= 5 and varied the ntree= 500 to 5000 and saw little difference in Accuracy or sensivitiy (Kappa) amongst all. Hence, we decided to keep the miniumum number of trees i.e 500, which is also the default in the "randomForest" function. 
+Here we used mtry= 5 and varied the ntree= 500 to 5000 and saw little difference in Accuracy or sensivitiy (Kappa) amongst all. Hence, we decided to keep the minimum number of trees i.e 500, which is also the default in the "randomForest" function. 
 
 ### 58. Prediction of bacterial and viral numbers by host gene expression by using regression model. 
 
