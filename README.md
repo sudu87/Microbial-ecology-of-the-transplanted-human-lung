@@ -74,7 +74,7 @@ This repository contains a searchable table with bacterial isolate ID, taxonomy 
 * LuMiCol_part1.csv
 * LuMiCol_part3.csv
 
-*Correspondence must be sent to:
+*Correspondence must be sent to:*
 * **Dr. Sudip Das (sudip.das(at)unil.ch)**
 * **Prof. Dr. Philipp Engel (philipp.engel(at)unil.ch)**
 
