@@ -70,8 +70,8 @@ An open-access publicly available bacterial biorepository. Bacterial strains can
 Website: https://www.pactt.ch
 
 Correspondence must be sent to:
-**Dr. Sudip Das (sudip.das(at)unil.ch)**
-**Prof. Dr. Philipp Engel (philipp.engel(at)unil.ch**
+* **Dr. Sudip Das (sudip.das(at)unil.ch)**
+* **Prof. Dr. Philipp Engel (philipp.engel(at)unil.ch**
 
 ## Data availability 
 
