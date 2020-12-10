@@ -69,7 +69,12 @@ as spreadsheet (.csv file). This was imported to the web application [Genocrunch
 An open-access publicly available bacterial biorepository. Bacterial strains can be requested to us via email given below and will be sent free of charge and shipping costs will be paid by the receiver. The requestee must agree to Materials Transfer Agreement (MTA) set by PACTT (Powering Academia-industry Collaborations and Technology Transfer), a joint technology transfer office of the University of Lausanne (UNIL) and the University Hospital of Lausanne (CHUV).
 Website: https://www.pactt.ch
 
-Correspondence must be sent to:
+This repository contains a searchable table with bacterial isolate ID, taxonomy and basic growth characteristics in: 
+
+* LuMiCol_part1.csv
+* LuMiCol_part3.csv
+
+*Correspondence must be sent to:
 * **Dr. Sudip Das (sudip.das(at)unil.ch)**
 * **Prof. Dr. Philipp Engel (philipp.engel(at)unil.ch)**
 
