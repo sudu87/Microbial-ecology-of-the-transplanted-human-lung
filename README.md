@@ -64,6 +64,15 @@ as spreadsheet (.csv file). This was imported to the web application [Genocrunch
 
 * Part 4 (**Das_et_al_2020_analysis_pipeline_3_DADA2**): R markdown with BALF community analysis using DADA2 pipeline for obtaining ASVs and carry over to phyloseq for further analysis similar to Part 2. Computed ASVs were compiled into pneumotypes similar to Part 3.
 
+## Lung Microbiota Culture Collection (LuMiCol)
+
+An open-access publicly available bacterial biorepository. Bacterial strains can be requested to us via email given below and will be sent free of charge and shipping costs will be paid by the receiver. The requestee must agree to Materials Transfer Agreement (MTA) set by PACTT (Powering Academia-industry Collaborations and Technology Transfer), a joint technology transfer office of the University of Lausanne (UNIL) and the University Hospital of Lausanne (CHUV).
+Website: https://www.pactt.ch
+
+Correspondence must be sent to:
+**Dr. Sudip Das (sudip.das(at)unil.ch)**
+**Prof. Dr. Philipp Engel (philipp.engel(at)unil.ch**
+
 ## Data availability 
 
 We have deposited the raw data from all samples used in the study to Short Read Archive, NCBI under the BioProject **PRJNA632552** and BioSample accession **SAMN14911405**. 
