@@ -60,7 +60,7 @@ The analysis is divided into 3 parts:
 * Part 2 (**Das_et_al_2020_analysis_pipeline_2**): R markdown with BALF community analysis with starting OTUs from pipeline 1 with phyloseq, ampvis2 and vegan. Random Forest algorithms, Markov chain analysis and all statistical analysis and visualization plots.
 
 * Part 3 - nested inside part 2- after applying appropriate filtering, the OTU table with taxonomy and metadata is exported 
-as spreadsheet (.csv file). This was imported to the web application [Genocrunch](https://genocrunch.epfl.ch/home/doc) for performing the pneumotype discovery i.e. K-medoid based machine learning using Bray-Curtis diversity index. This generated Partition-around medoids (PAMs) and this information was added to the metadata file and re-imported to the R code. 
+as spreadsheet (.csv file). This was imported to the web application [Genocrunch](https://genocrunch.epfl.ch/home/doc) for performing the pneumotype discovery i.e. K-medoid based machine learning using Bray-Curtis diversity index. This generated Partition-around medoids (PAMs) and this information was added to the metadata file and re-imported to the R code. The input parameters used in (bioRxiv 2020.05.21.106211; doi: https://doi.org/10.1101/2020.05.21.106211) are provided as 
 
 * Part 4 (**Das_et_al_2020_analysis_pipeline_3_DADA2**): R markdown with BALF community analysis using DADA2 pipeline for obtaining ASVs and carry over to phyloseq for further analysis similar to Part 2. Computed ASVs were compiled into pneumotypes similar to Part 3.
 
