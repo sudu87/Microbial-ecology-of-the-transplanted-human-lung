@@ -1109,7 +1109,7 @@ tutorial:https://rstudio-pubs-static.s3.amazonaws.com/389752_a0e0b14d14ea40ba8a7
 
 **Optimization of splits per try (mtry)**
 
-The first step was to make a grid search for optimizing mtry i.e. number of variable is randomly collected to be sampled at each split time. For this we created a control function for training with 10 folds and keep 3 folds for training. Search method used was grid. 
+The first step was to make a grid search for optimizing mtry i.e. splits per try, which is basically the number of variables randomly selected gene predictors to be sampled at each iteration. For this we created a control function with search method 'grid' that performs 10 folds cross-validation and repeats the step 3 times. 
 
 ```{r}
 control <- trainControl(method='repeatedcv', 
@@ -1133,7 +1133,7 @@ From here, we could see that mtry= 5 gave the best accuracy results.
 
 **Optimization of number of decision trees (ntrees)**
 
-The next step was to manually tune for optimize the number of decision trees (ntrees). Further, using the mtry = 5, we optimized the number of decision trees (ntrees) by appyling a loop to vary different number of decision trees (ntrees) needed for good prediction. 
+The next step was to manually tune for optimize the number of decision trees (ntrees) needed for good prediction, using mtry=5 and applying a loop to stepwise vary the ntrees. 
 
 ```{r}
 control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
