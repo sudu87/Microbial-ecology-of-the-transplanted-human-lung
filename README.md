@@ -66,6 +66,9 @@ as spreadsheet (.csv file). This was imported to the web application [Genocrunch
 
 ## Lung Microbiota Culture Collection (LuMiCol)
 
+![LUMICOL logo](https://user-images.githubusercontent.com/55438047/107691218-76024600-6cab-11eb-96a4-306e0bb2eb71.png)
+
+
 An open-access publicly available bacterial biorepository. Bacterial strains can be requested to us via email given below and will be sent free of charge and shipping costs will be paid by the receiver. The requestee must agree to Materials Transfer Agreement (MTA) set by PACTT (Powering Academia-industry Collaborations and Technology Transfer), a joint technology transfer office of the University of Lausanne (UNIL) and the University Hospital of Lausanne (CHUV).
 Website: https://www.pactt.ch
 
