@@ -3,6 +3,8 @@
 We combined amplicon sequencing and culturomics to characterize the viable bacterial community in 234 longitudinal bronchoalveolar lavage samples from 64 lung transplant recipients and established links to viral loads, host gene expression, lung function, and transplant health. 
 We find that the lung microbiota post-transplant can be categorized into four distinct compositional states, ‘pneumotypes’. 
 
+![OTU-Isolate match pairs](https://user-images.githubusercontent.com/55438047/107704311-52e09200-6cbd-11eb-9547-00830f9c385d.png)
+
 ## Code conceptualization and development team 
 
 * Sudip Das<sup>1
