@@ -5,6 +5,8 @@ We find that the lung microbiota post-transplant can be categorized into four di
 
 ![OTU-Isolate match pairs](https://user-images.githubusercontent.com/55438047/107704311-52e09200-6cbd-11eb-9547-00830f9c385d.png)
 
+Dataset published on zenodo:  https://doi.org/10.1101/2020.05.21.106211
+
 ## Code conceptualization and development team 
 
 * Sudip Das<sup>1
