@@ -93,6 +93,5 @@ We have deposited the raw data from all samples used in the study to Short Read 
 
 **A prevalent and culturable microbiota links ecological balance to clinical stability of the human lung after transplantation**
 
-Sudip Das, Eric Bernasconi, Angela Koutsokera, Daniel-Adrien Wurlod, Vishwachi Tripathi, Germán Bonilla-Rosso, John-David Aubert, Marie-France Derkenne, Louis Mercier, Céline Pattaroni, Alexis Rapin, Christophe von Garnier, Benjamin J. Marsland, Philipp Engel, Laurent P. Nicod
+Das, S., Bernasconi, E., Koutsokera, A. et al. A prevalent and culturable microbiota links ecological balance to clinical stability of the human lung after transplantation. Nat Commun 12, 2126 (2021). https://doi.org/10.1038/s41467-021-22344-4
 
-bioRxiv 2020.05.21.106211; doi: https://doi.org/10.1101/2020.05.21.106211
